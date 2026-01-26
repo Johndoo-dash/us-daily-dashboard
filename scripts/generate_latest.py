@@ -268,16 +268,36 @@ def fetch_bls_schedule(limit: int = 8):
 def build_earnings_next_7days(myset):
     items = []
     today = datetime.now(KST).date()
+
     for i in range(0, 7):
         d = today + timedelta(days=i)
         try:
             rows = fc.get_earnings_by_date(datetime(d.year, d.month, d.day, 0, 0))
         except Exception:
             rows = []
+
+        # rows가 None/문자열/단일 dict 등으로 올 수도 있어서 방어
+        if rows is None:
+            rows = []
+        if isinstance(rows, dict):
+            rows = [rows]
+        if isinstance(rows, str):
+            rows = []  # 의미 있는 구조가 아니면 버림
+        if not isinstance(rows, (list, tuple)):
+            rows = []
+
         for r in rows:
+            # r이 dict가 아니면 스킵 (str 등)
+            if not isinstance(r, dict):
+                continue
+
             sym = str(r.get("symbol") or r.get("Symbol") or "").upper().strip()
+            if not sym:
+                continue
+
             name = str(r.get("name") or r.get("Name") or "").strip()
             timing = str(r.get("time") or r.get("Time") or r.get("timing") or "").strip()  # BMO/AMC
+
             if sym in myset:
                 when = f"{d.isoformat()} {timing}".strip()
                 items.append({
@@ -286,7 +306,8 @@ def build_earnings_next_7days(myset):
                     "name": name or KO_NAME.get(sym, ""),
                     "note": "실적 캘린더(Nasdaq)",
                 })
-    # dedup by symbol + date
+
+    # dedup: symbol + date
     seen = set()
     out = []
     for x in items:
@@ -295,6 +316,7 @@ def build_earnings_next_7days(myset):
             continue
         seen.add(key)
         out.append(x)
+
     return out[:12]
 
 # -----------------------------
