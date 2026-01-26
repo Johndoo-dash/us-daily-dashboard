@@ -141,6 +141,10 @@
       font-weight: 800;
       color: var(--eui-text-primary);
       line-height: 1.2;
+      /* ✅ 레이아웃 점프(줄어드는 느낌) 완화: 최소 높이 고정 */
+      min-height: 24px;
+      display:flex;
+      align-items:center;
     }
     .kpi-mini .sub{
       margin-top: 4px;
@@ -149,22 +153,14 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      /* ✅ 레이아웃 점프 완화 */
+      min-height: 16px;
     }
 
     /* ✅ 최상단 KPI 시각화(단어 색상) */
     .tone-good{ color: var(--eui-success); }
     .tone-bad{ color: var(--eui-danger); }
     .tone-neutral{ color: #0F172A; } /* 검정 계열 */
-
-    /* ✅ (1) 스크롤바 생겨도 레이아웃 밀림 방지 */
-    #mainScroll{
-      scrollbar-gutter: stable; /* 지원 브라우저 */
-      overflow-y: auto;
-    }
-    /* fallback: 스크롤바 영역을 항상 확보(밀림 방지) */
-    @supports not (scrollbar-gutter: stable){
-      #mainScroll{ overflow-y: scroll; }
-    }
 
     @media (max-width:768px){
       .sidebar{
@@ -238,6 +234,7 @@
         <div class="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <h2 class="text-3xl font-bold text-slate-800">미국 주식 데일리 리포트</h2>
+            <!-- ✅ 요청: 서브텍스트 삭제 -->
           </div>
           <div class="text-right">
             <p class="text-xs text-slate-400">마지막 업데이트</p>
@@ -302,19 +299,7 @@
               </div>
             </div>
 
-            <div class="mt-5 bg-blue-50 border-l-4 border-blue-600 p-5 rounded-xl">
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <span class="text-xl">💡</span>
-                </div>
-                <div>
-                  <h5 class="font-bold text-slate-800 mb-2">초보용 메모</h5>
-                  <p class="text-sm text-slate-600 leading-relaxed" id="beginnerMemo">
-                    “행동은 1개만 고르면 돼요. 오늘은 ‘관망’처럼 확실히.”
-                  </p>
-                </div>
-              </div>
-            </div>
+            <!-- ✅ 요청: "초보용 메모" 섹션 삭제 -->
           </div>
 
           <div class="card card-hover">
@@ -353,6 +338,7 @@
           <div class="mt-6 relative" style="height: 340px;">
             <canvas id="overnightChart"></canvas>
           </div>
+          <!-- ✅ 요청: 별표 문구 제거 -->
         </div>
       </section>
 
@@ -404,7 +390,8 @@
               </div>
             </div>
             <div class="bg-white rounded-2xl border border-slate-100 p-4">
-              <h5 class="text-lg font-bold text-slate-800 mb-3">초보용 해석</h5>
+              <!-- ✅ 요청: "초보용" 문구 제거 (의미는 유지) -->
+              <h5 class="text-lg font-bold text-slate-800 mb-3">해석 가이드</h5>
               <div class="space-y-3 text-sm text-slate-600">
                 <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
                   <p class="font-semibold text-slate-800 mb-1">미국 국채금리</p>
@@ -510,7 +497,7 @@
         <div class="mb-4">
           <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">My List</p>
           <h4 class="text-xl font-bold text-slate-800">내 종목 리스트 빠른 점검</h4>
-          <p class="text-sm text-slate-500 mt-1">2줄 템플릿</p>
+          <p class="text-sm text-slate-500 mt-1">4줄 템플릿 그대로</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
@@ -518,7 +505,7 @@
             <thead class="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">종목</th>
-                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">2줄 템플릿</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">4줄 템플릿</th>
                 <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">오늘 가격 흐름</th>
               </tr>
             </thead>
@@ -552,6 +539,7 @@
         </div>
       </section>
 
+      <!-- ✅ 요청: "* 데이터 소스..." 문구 삭제 -->
       <div class="text-xs text-slate-400 py-8"></div>
     </main>
   </div>
@@ -593,10 +581,6 @@
     }
   };
 
-  function getVar(name){
-    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  }
-
   const C = {
     blue1: getVar('--chart-blue-1'),
     blue2: getVar('--chart-blue-2'),
@@ -605,21 +589,9 @@
     gray1: getVar('--chart-gray-1'),
   };
 
-  // ✅ (7) 종목 한글 병기 매핑(프론트 보조)
-  const KO_NAME = {
-    NE: '노블 코퍼레이션',
-    RXRX: '리커전 파마',
-    BLDP: '발라드 파워',
-    BMNR: '비트마인드(가칭)',   // 필요하면 형님이 원하는 표기로 교체
-    NVDA: '엔비디아',
-    TSLA: '테슬라',
-    AI: 'C3.ai',
-    GGLL: '그래닛셰어즈 2x 롱 NVDA(ETF)',
-    QQQM: '인베스코 나스닥100 미니(ETF)',
-    VRTL: '버추얼트…(가칭)',   // 필요하면 교체
-    CEVA: '세바',
-    CCS: '센추리 커뮤니티즈'
-  };
+  function getVar(name){
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
 
   function fmtPct(x){
     if (x === null || x === undefined || x === '') return '-';
@@ -635,6 +607,7 @@
     return 'bg-slate-100 text-slate-700';
   }
   function actionBadgeStyle(action){
+    if(!action) return 'bg-slate-100 text-slate-700';
     if(action.includes('매수')) return 'bg-blue-100 text-blue-700';
     if(action.includes('정리')) return 'bg-red-100 text-red-700';
     if(action.includes('관망')) return 'bg-slate-100 text-slate-700';
@@ -700,36 +673,30 @@
     `;
   }
 
-  // ✅ (7) 내 종목: 2줄 템플릿 + $ 표시 + 한글 병기
   function stockRow(s){
     const pct = Number(s.changePct);
     const color = Number.isNaN(pct) ? 'text-slate-600' : (pct >= 0 ? 'text-emerald-600' : 'text-red-600');
 
-    const sym = String(s.symbol || '').toUpperCase();
-    const ko = (s.koName || s.name || KO_NAME[sym] || '').trim();
-
-    const line1 = `1) 오늘 가격 흐름: ${escapeHtml(s.priceText || '-')}`;
-    const key = (s.news || s.nextEvent || s.memo || '').trim();
-    const line2 = `2) 핵심 체크: ${escapeHtml(key || '없음')}`;
-
-    const last = (s.last === null || s.last === undefined || s.last === '') ? '-' : String(s.last);
+    const lines = [
+      `1) 오늘 가격 흐름: ${escapeHtml(s.priceText || '-')}`,
+      `2) 관련 뉴스: ${escapeHtml(s.news || '없음')}`,
+      `3) 다음 큰 일정: ${escapeHtml(s.nextEvent || '없음')}`,
+      `4) 내 메모: ${escapeHtml(s.memo || '')}`
+    ];
 
     return `
       <tr class="hover:bg-slate-50 transition-colors align-top">
         <td class="px-6 py-4">
-          <p class="font-semibold text-slate-800">
-            ${escapeHtml(sym)}
-            ${ko ? `<span class="text-xs text-slate-500 font-semibold ml-1">(${escapeHtml(ko)})</span>` : ``}
-          </p>
+          <p class="font-semibold text-slate-800">${escapeHtml(s.symbol)}</p>
+          <p class="text-xs text-slate-500">${escapeHtml(s.name || '')}</p>
         </td>
         <td class="px-6 py-4">
           <div class="space-y-1 text-sm text-slate-600">
-            <p>${line1}</p>
-            <p>${line2}</p>
+            ${lines.map(t => `<p>${t}</p>`).join('')}
           </div>
         </td>
         <td class="px-6 py-4 text-right">
-          <p class="font-semibold text-slate-800">${last === '-' ? '-' : '$' + escapeHtml(last)}</p>
+          <p class="font-semibold text-slate-800">${escapeHtml(s.last || '-')}</p>
           <p class="text-sm font-semibold ${color}">${fmtPct(s.changePct)}</p>
         </td>
       </tr>
@@ -839,10 +806,12 @@
     setInterval(()=> loadData(true), 5 * 60 * 1000);
   }
 
-  // ✅ (fetch) 캐시 버스터: Pages/브라우저 캐시로 최신 json이 안 뜨는 거 방지
   async function loadData(force=false){
     try{
-      const url = force ? `data/latest.json?v=${Date.now()}` : `data/latest.json`;
+      // ✅ 프로젝트 페이지에서도 안전한 URL 구성 + 강제 새로고침은 캐시버스터
+      const baseUrl = new URL('data/latest.json', window.location.href);
+      const url = force ? `${baseUrl.toString()}?t=${Date.now()}` : baseUrl.toString();
+
       const res = await fetch(url, { cache: force ? 'no-store' : 'default' });
       if(!res.ok) throw new Error('latest.json not found');
       const data = await res.json();
@@ -930,7 +899,6 @@
     actionBadge.className = `inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold ${actionBadgeStyle(action)}`;
     actionBadge.textContent = action;
     document.getElementById('actionNote').textContent = actionNote;
-    document.getElementById('beginnerMemo').textContent = data.action?.beginnerMemo || document.getElementById('beginnerMemo').textContent;
 
     const todo = document.getElementById('todo3');
     const t = data.todo3 || [];
@@ -945,7 +913,7 @@
     const idxKpis = document.getElementById('indexKpis');
     idxKpis.innerHTML = okpis.length
       ? okpis.map(x => kpiCard(x.icon || '📈', x.label, x.valueText, x.desc, x.changePct)).join('')
-      : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+      : '';
 
     document.getElementById('overnightReason').textContent = data.overnight?.bigFlowReason || '-';
 
@@ -977,7 +945,7 @@
 
     // p4
     const macroKpis = document.getElementById('macroKpis');
-    macroKpis.innerHTML = mkpis.length ? mkpis.map(x => kpiCard(x.icon || '🏦', x.label, x.valueText, x.desc, x.changePct)).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+    macroKpis.innerHTML = mkpis.length ? mkpis.map(x => kpiCard(x.icon || '🏦', x.label, x.valueText, x.desc, x.changePct)).join('') : '';
 
     destroyChart('macro');
     const m = data.macro?.series || null;
@@ -1087,7 +1055,7 @@
       action: { value: '관망', note: '중요 일정 전이라 무리한 매수 금지', beginnerMemo: '“관망”도 전략. 애매할수록 쉬는 게 이김.' },
       overnight: { kpis: [], bigFlowReason: '-', series: { labels } },
       schedule: { econ: [], fed: [] },
-      macro: { kpis: [], series: { labels, us10y: [], dxy: [], wti: [] } },
+      macro: { kpis: [], series: { labels } },
       newsTop5: [],
       earnings: { upcoming: [], movers: [] },
       sectors: [],
