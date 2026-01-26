@@ -1,0 +1,15 @@
+{
+  "updatedAt": "init",
+  "oneLine": "초기 설정 완료",
+  "mood": {"value": "애매", "reason": "초기값"},
+  "action": {"value": "관망", "note": "초기값", "beginnerMemo": "초기값"},
+  "overnight": {"kpis": [], "bigFlowReason": "-", "series": {"labels": [], "spx": [], "ixic": [], "dji": []}},
+  "schedule": {"econ": [], "fed": []},
+  "macro": {"kpis": [], "series": {"labels": [], "us10y": [], "dxy": [], "wti": []}},
+  "newsTop5": [],
+  "earnings": {"upcoming": [], "movers": []},
+  "sectors": [],
+  "myStocks": [],
+  "risk": {"speed": "-", "vol": "-", "rule": "-"},
+  "todo3": ["-", "-", "-"]
+}
