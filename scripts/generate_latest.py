@@ -1,5 +1,4 @@
 import json
-import math
 import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -51,6 +50,9 @@ UA_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
+# -----------------------------
+# helpers
+# -----------------------------
 def safe_float(x):
     try:
         return float(x)
@@ -63,8 +65,12 @@ def pct_change(last, prev):
     return (last / prev - 1.0) * 100.0
 
 def stooq_csv(symbol: str) -> str:
-    # Stooq CSV endpoint (daily)
     return f"https://stooq.com/q/d/l/?s={symbol}&i=d"
+
+def last_prev(arr):
+    if len(arr) < 2:
+        return None, None
+    return arr[-1], arr[-2]
 
 def fetch_stooq_close_series(symbol: str, limit: int = 35):
     """
@@ -76,7 +82,6 @@ def fetch_stooq_close_series(symbol: str, limit: int = 35):
     lines = r.text.strip().splitlines()
     if len(lines) < 3:
         return [], []
-    # header: Date,Open,High,Low,Close,Volume
     rows = []
     for line in lines[1:]:
         parts = line.split(",")
@@ -88,12 +93,9 @@ def fetch_stooq_close_series(symbol: str, limit: int = 35):
             continue
         rows.append((dt, close))
     rows = rows[-limit:]
-    labels = [d for d, _ in rows]
-    closes = [c for _, c in rows]
-    return labels, closes
+    return [d for d, _ in rows], [c for _, c in rows]
 
 def fetch_fred_dgs10(limit: int = 35):
-    # no key needed
     url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
     r = requests.get(url, headers=UA_HEADERS, timeout=25)
     r.raise_for_status()
@@ -106,20 +108,25 @@ def fetch_fred_dgs10(limit: int = 35):
             continue
         rows.append((d.strip(), val))
     rows = rows[-limit:]
-    labels = [d for d, _ in rows]
-    vals = [v for _, v in rows]
-    return labels, vals
+    return [d for d, _ in rows], [v for _, v in rows]
+
+# -----------------------------
+# News (Google News RSS)
+# -----------------------------
+_RSS_CACHE = {}
 
 def google_news_rss(query: str, max_items: int = 10):
-    # Google News RSS
-    # NOTE: query should be url-escaped minimally (spaces -> +)
     q = query.replace(" ", "+")
     url = f"https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
+
+    # simple cache (per run)
+    if url in _RSS_CACHE:
+        return _RSS_CACHE[url]
+
     feed = feedparser.parse(url)
     items = []
     for e in feed.entries[:max_items]:
         title = getattr(e, "title", "").strip()
-        # source often embedded like " - Reuters"
         source = ""
         if " - " in title:
             source = title.split(" - ")[-1].strip()
@@ -130,6 +137,7 @@ def google_news_rss(query: str, max_items: int = 10):
             "source": source or "Google News",
             "star": False,
         })
+
     # de-dup by title
     seen = set()
     out = []
@@ -139,42 +147,124 @@ def google_news_rss(query: str, max_items: int = 10):
             continue
         seen.add(key)
         out.append(it)
-    return out[:5]
 
-def fetch_fed_schedule(limit: int = 6):
-    # Use Fed "Monetary Policy" upcoming dates (contains FOMC meeting + minutes)
-    url = "https://www.federalreserve.gov/monetarypolicy.htm"
-    r = requests.get(url, headers=UA_HEADERS, timeout=25)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, "html.parser")
-    text = soup.get_text("\n")
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    # crude parse: find "Upcoming Dates" block
-    try:
-        idx = lines.index("Upcoming Dates")
-    except ValueError:
-        return []
-    block = lines[idx: idx + 80]
-    events = []
-    # pattern: "Jan. 27-28 FOMC Meeting" etc
-    for ln in block:
-        if len(events) >= limit:
-            break
-        if "FOMC" in ln or "Minutes" in ln:
-            events.append(ln)
-    # format into UI rows
-    out = []
-    for ev in events[:limit]:
-        # split into date + title
-        m = re.match(r"^([A-Za-z]{3,4}\.\s*\d{1,2}(?:-\d{1,2})?)\s+(.*)$", ev)
-        if m:
-            dpart = m.group(1)
-            title = m.group(2)
-            out.append({"time": dpart, "title": title, "note": "Fed(공식 캘린더)"})
-        else:
-            out.append({"time": "-", "title": ev, "note": "Fed(공식 캘린더)"})
+    out = out[:max_items]
+    _RSS_CACHE[url] = out
     return out
 
+def google_news_one(query: str):
+    try:
+        items = google_news_rss(query, max_items=5)
+        return items[0] if items else None
+    except Exception:
+        return None
+
+# -----------------------------
+# Fed schedule (best-effort)
+# -----------------------------
+def fetch_fed_schedule(limit: int = 6):
+    """
+    Best-effort scrape. If breaks, returns [] safely.
+    """
+    try:
+        url = "https://www.federalreserve.gov/monetarypolicy.htm"
+        r = requests.get(url, headers=UA_HEADERS, timeout=25)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        text = soup.get_text("\n")
+        lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+        try:
+            idx = lines.index("Upcoming Dates")
+        except ValueError:
+            return []
+        block = lines[idx: idx + 120]
+
+        events = []
+        for ln in block:
+            if len(events) >= limit:
+                break
+            if ("FOMC" in ln) or ("Minutes" in ln) or ("Press Conference" in ln):
+                events.append(ln)
+
+        out = []
+        for ev in events[:limit]:
+            m = re.match(r"^([A-Za-z]{3,4}\.\s*\d{1,2}(?:-\d{1,2})?)\s+(.*)$", ev)
+            if m:
+                out.append({"time": m.group(1), "title": m.group(2), "note": "Fed(공식 페이지)"})
+            else:
+                out.append({"time": "-", "title": ev, "note": "Fed(공식 페이지)"})
+        return out
+    except Exception:
+        return []
+
+# -----------------------------
+# BLS econ calendar (iCal)
+# -----------------------------
+def fetch_bls_schedule(limit: int = 8):
+    """
+    Fetch BLS News Releases iCal and parse VEVENT blocks.
+    MVP: timezone conversion omitted; shows YYYY-MM-DD HH:MM as published in ICS.
+    """
+    try:
+        # page containing .ics link
+        page = "https://www.bls.gov/schedule/news_release/ical.htm"
+        r = requests.get(page, headers=UA_HEADERS, timeout=25)
+        r.raise_for_status()
+
+        soup = BeautifulSoup(r.text, "html.parser")
+        a = soup.select_one('a[href$=".ics"]')
+        if not a:
+            return []
+
+        ics_url = a.get("href", "").strip()
+        if not ics_url:
+            return []
+        if ics_url.startswith("/"):
+            ics_url = "https://www.bls.gov" + ics_url
+
+        ics = requests.get(ics_url, headers=UA_HEADERS, timeout=25)
+        ics.raise_for_status()
+        text = ics.text
+
+        # Parse VEVENT blocks
+        events = []
+        blocks = text.split("BEGIN:VEVENT")
+        for b in blocks[1:]:
+            if "END:VEVENT" not in b:
+                continue
+            chunk = b.split("END:VEVENT")[0]
+
+            dt = None
+            summary = None
+            for line in chunk.splitlines():
+                line = line.strip()
+                if line.startswith("DTSTART"):
+                    dt = line.split(":", 1)[-1].strip()
+                elif line.startswith("SUMMARY"):
+                    summary = line.split(":", 1)[-1].strip()
+
+            if not summary or not dt:
+                continue
+
+            # dt example: 20260129T083000
+            m = re.match(r"(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})", dt)
+            if m:
+                y, mo, d, hh, mm = m.groups()
+                time_txt = f"{y}-{mo}-{d} {hh}:{mm}"
+            else:
+                time_txt = dt
+
+            events.append({"time": time_txt, "title": summary, "note": "BLS(공식 iCal)"})
+            if len(events) >= limit:
+                break
+
+        return events
+    except Exception:
+        return []
+
+# -----------------------------
+# Earnings calendar
+# -----------------------------
 def build_earnings_next_7days(myset):
     items = []
     today = datetime.now(KST).date()
@@ -184,11 +274,10 @@ def build_earnings_next_7days(myset):
             rows = fc.get_earnings_by_date(datetime(d.year, d.month, d.day, 0, 0))
         except Exception:
             rows = []
-        # rows: list[dict]
         for r in rows:
             sym = str(r.get("symbol") or r.get("Symbol") or "").upper().strip()
             name = str(r.get("name") or r.get("Name") or "").strip()
-            timing = str(r.get("time") or r.get("Time") or r.get("timing") or "").strip()  # BMO/AMC sometimes
+            timing = str(r.get("time") or r.get("Time") or r.get("timing") or "").strip()  # BMO/AMC
             if sym in myset:
                 when = f"{d.isoformat()} {timing}".strip()
                 items.append({
@@ -197,8 +286,20 @@ def build_earnings_next_7days(myset):
                     "name": name or KO_NAME.get(sym, ""),
                     "note": "실적 캘린더(Nasdaq)",
                 })
-    return items[:12]
+    # dedup by symbol + date
+    seen = set()
+    out = []
+    for x in items:
+        key = (x["symbol"], x["when"].split()[0])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(x)
+    return out[:12]
 
+# -----------------------------
+# main
+# -----------------------------
 def main():
     now_kst = datetime.now(KST)
     updated_at = now_kst.strftime("%Y-%m-%d %H:%M KST")
@@ -208,11 +309,6 @@ def main():
     ndq_labels, ixic = fetch_stooq_close_series("^ndq", 35)
     dji_labels, dji = fetch_stooq_close_series("^dji", 35)
     vix_labels, vix = fetch_stooq_close_series("vi.f", 35)
-
-    def last_prev(arr):
-        if len(arr) < 2:
-            return None, None
-        return arr[-1], arr[-2]
 
     spx_last, spx_prev = last_prev(spx)
     ixic_last, ixic_prev = last_prev(ixic)
@@ -235,15 +331,17 @@ def main():
     dxy_last, dxy_prev = last_prev(dxy)
     wti_last, wti_prev = last_prev(wti)
 
+    # 금리는 상대%보다 bp를 desc에 넣는게 직관적이라 changePct는 0으로 두는 방식(프론트 fmtPct 그대로 유지)
+    us10y_bp = (us10y_last - us10y_prev) * 100 if (us10y_last is not None and us10y_prev is not None) else 0
+
     macro_kpis = [
-        {"icon":"🏦","label":"미국 10년 금리","valueText": f"{us10y_last:.2f}%" if us10y_last else "-", "desc":"FRED(DGS10)", "changePct": round(pct_change(us10y_last, us10y_prev), 2) if us10y_last else 0},
+        {"icon":"🏦","label":"미국 10년 금리","valueText": f"{us10y_last:.2f}%" if us10y_last else "-", "desc": f"FRED(DGS10) · 전일 {us10y_bp:+.0f}bp", "changePct": 0},
         {"icon":"💵","label":"달러값(DXY)","valueText": f"{dxy_last:.2f}" if dxy_last else "-", "desc":"Stooq(DX.F)", "changePct": round(pct_change(dxy_last, dxy_prev), 2) if dxy_last else 0},
         {"icon":"🛢️","label":"유가(WTI)","valueText": f"{wti_last:.2f}" if wti_last else "-", "desc":"Stooq(CL.F)", "changePct": round(pct_change(wti_last, wti_prev), 2) if wti_last else 0},
     ]
 
-    # align macro labels by us10y labels for chart (simple approach)
+    # align macro labels by us10y labels for chart
     labels = us10y_labels[-30:] if us10y_labels else (spx_labels[-30:] if spx_labels else [])
-    # build lookup dict for dxy/wti by date
     dxy_map = {d: v for d, v in zip(dxy_labels, dxy)}
     wti_map = {d: v for d, v in zip(wti_labels, wti)}
     us10y_map = {d: v for d, v in zip(us10y_labels, us10y)}
@@ -254,71 +352,115 @@ def main():
         "wti": [wti_map.get(d) for d in labels],
     }
 
-    # My stocks (Stooq: ticker.us)
+    # Earnings (next 7 days, my tickers only)
+    myset = set(MY_TICKERS)
+    upcoming = build_earnings_next_7days(myset)
+    up_map = {u["symbol"]: u["when"] for u in upcoming}
+
+    # My stocks: Stooq ticker.us + add news + nextEvent
     mystocks = []
-    my_changes = []
     for t in MY_TICKERS:
         sym = t.upper()
         stooq_sym = f"{sym.lower()}.us"
-        lbls, closes = fetch_stooq_close_series(stooq_sym, 3)
+        try:
+            _, closes = fetch_stooq_close_series(stooq_sym, 3)
+        except Exception:
+            closes = []
         last, prev = last_prev(closes)
-        chg = round(pct_change(last, prev), 2) if last and prev else 0.0
-        my_changes.append((sym, chg))
-        last_txt = f"{last:.2f}" if last else "-"
-        price_text = f"${last_txt} ({'↑' if chg>=0 else '↓'}{abs(chg):.2f}%)" if last else "-"
+        chg = round(pct_change(last, prev), 2) if (last is not None and prev is not None) else 0.0
+        last_txt = f"{last:.2f}" if last is not None else "-"
+
+        if last is not None:
+            price_text = f"${last_txt} ({'↑' if chg>=0 else '↓'}{abs(chg):.2f}%)"
+        else:
+            price_text = "-"
+
+        # news: one headline per ticker (best-effort)
+        headline = google_news_one(f"{sym} stock")
+        news_text = headline["title"] if headline and headline.get("title") else "없음"
+
+        next_event = up_map.get(sym, "") or "없음"
+
         mystocks.append({
             "symbol": sym,
             "name": KO_NAME.get(sym, ""),
             "koName": KO_NAME.get(sym, ""),
-            "last": last_txt if last else "-",
+            "last": last_txt,
             "changePct": chg,
             "priceText": price_text,
-            "news": "",
-            "nextEvent": "",
+            "news": news_text,
+            "nextEvent": next_event,
             "memo": "",
         })
 
-    # Sectors from SPDR sector ETFs
+    # Sectors: SPDR sector ETFs
     sectors = []
     for etf, ko in SECTOR_ETFS:
-        lbls, closes = fetch_stooq_close_series(f"{etf.lower()}.us", 3)
+        try:
+            _, closes = fetch_stooq_close_series(f"{etf.lower()}.us", 3)
+        except Exception:
+            closes = []
         last, prev = last_prev(closes)
-        chg = round(pct_change(last, prev), 2) if last and prev else 0.0
+        chg = round(pct_change(last, prev), 2) if (last is not None and prev is not None) else 0.0
         sectors.append({"name": ko, "changePct": chg, "symbol": etf})
 
-    # Earnings (next 7 days, my tickers only)
-    myset = set(MY_TICKERS)
-    upcoming = build_earnings_next_7days(myset)
+    # p6 Movers: prefer earnings-near tickers (±1 day), then fill with proxy
+    today = datetime.now(KST).date()
+    near_syms = set()
+    for u in upcoming:
+        try:
+            d = datetime.fromisoformat(u["when"].split()[0]).date()
+            if abs((d - today).days) <= 1:
+                near_syms.add(u["symbol"])
+        except Exception:
+            pass
 
-    # Movers: use myStocks top/bottom as "급등락" (실적 섹션의 대체 카드)
-    my_sorted = sorted(mystocks, key=lambda x: x.get("changePct", 0), reverse=True)
     movers = []
-    for x in (my_sorted[:3] + my_sorted[-3:]):
-        movers.append({
-            "symbol": x["symbol"],
-            "name": x.get("name",""),
-            "changePct": x.get("changePct", 0),
-            "why": "내 종목 기준 급등락(프록시) — 실적 연동 여부는 뉴스 확인",
-        })
+    for x in mystocks:
+        if x["symbol"] in near_syms:
+            movers.append({
+                "symbol": x["symbol"],
+                "name": x.get("name",""),
+                "changePct": x.get("changePct", 0),
+                "why": f"실적 근접일(±1일) 자동 표기 / 변동 {x.get('changePct',0):+.2f}%",
+            })
 
-    # Schedule
+    if len(movers) < 6:
+        my_sorted = sorted(mystocks, key=lambda x: x.get("changePct", 0), reverse=True)
+        proxy = (my_sorted[:3] + my_sorted[-3:])
+        for x in proxy:
+            movers.append({
+                "symbol": x["symbol"],
+                "name": x.get("name",""),
+                "changePct": x.get("changePct", 0),
+                "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인",
+            })
+
+    # de-dup movers by symbol
+    seen = set()
+    movers2 = []
+    for m in movers:
+        if m["symbol"] in seen:
+            continue
+        seen.add(m["symbol"])
+        movers2.append(m)
+    movers = movers2[:10]
+
+    # Schedule: Econ (BLS iCal) + Fed(best-effort)
+    econ_events = fetch_bls_schedule(8)
     fed_events = fetch_fed_schedule(6)
-    # econ: 넣을만한 무료 정식 캘린더가 빡세서, v1은 "내 종목 실적/주요 이벤트"로 채움
-    econ_events = []
-    for u in upcoming[:6]:
-        econ_events.append({"time": u["when"].split()[0], "title": f"Earnings: {u['symbol']}", "note": u.get("name","")})
-    if not econ_events:
-        econ_events = []
 
-    # News Top5 (market general + tickers mix)
+    # News Top5 (market)
     news = google_news_rss("US stock market futures S&P 500", 12)
     if len(news) < 5:
         extra = google_news_rss("Nasdaq earnings", 12)
-        news = (news + extra)[:5]
+        news = (news + extra)[:12]
+    news = news[:5]
 
     # Mood/Action simple rule
-    spx_chg = pct_change(spx_last, spx_prev) if spx_last and spx_prev else 0
-    vix_val = vix_last if vix_last else None
+    spx_chg = pct_change(spx_last, spx_prev) if (spx_last is not None and spx_prev is not None) else 0.0
+    vix_val = vix_last if vix_last is not None else None
+
     if spx_chg > 0.5 and (vix_val is None or vix_val < 18):
         mood = {"value": "좋음", "reason": "지수 강세 + 변동성 낮은 편"}
         action = {"value": "매수(조금)", "note": "분할/소액 중심", "beginnerMemo": "급할수록 분할. 한 번에 올인 금지."}
@@ -329,12 +471,12 @@ def main():
         mood = {"value": "애매", "reason": "방향성 약함(보합/혼조)"}
         action = {"value": "관망", "note": "확실한 구간까지 기다리기", "beginnerMemo": "관망도 전략. 애매하면 쉬는 게 이김."}
 
-    # One-line summary
+    # One-line summary (include my top/bottom)
     top = max(mystocks, key=lambda x: x.get("changePct", 0), default=None)
     bot = min(mystocks, key=lambda x: x.get("changePct", 0), default=None)
     one_line = (
         f"지수 {('상승' if spx_chg>=0 else '하락')}({spx_chg:+.2f}%), "
-        f"10Y {pct_change(us10y_last, us10y_prev):+.2f}%, "
+        f"10Y {us10y_bp:+.0f}bp, "
         f"DXY {pct_change(dxy_last, dxy_prev):+.2f}%, "
         f"WTI {pct_change(wti_last, wti_prev):+.2f}%. "
         f"내 종목 TOP: {top['symbol']}({top['changePct']:+.2f}%) / "
@@ -346,18 +488,17 @@ def main():
     max_abs = max((abs(x.get("changePct",0)) for x in mystocks), default=0)
     risk = {
         "speed": f"내 종목 최대 절대등락: {max_abs:.2f}%",
-        "vol": f"VIX: {vix_last:.2f}" if vix_last else "VIX: -",
+        "vol": f"VIX: {vix_last:.2f}" if vix_last is not None else "VIX: -",
         "rule": f"오늘 액션: {action['value']} (무리 금지)",
     }
 
-    # Overnight series (30)
+    # Overnight series (30) aligned by spx_labels
     ov_labels = spx_labels[-30:] if spx_labels else []
-    # align other indices by date
     ixic_map = {d: v for d, v in zip(ndq_labels, ixic)}
     dji_map = {d: v for d, v in zip(dji_labels, dji)}
     overnight_series = {
         "labels": ov_labels,
-        "spx": [v for v in spx[-30:]] if spx else [],
+        "spx": spx[-30:] if spx else [],
         "ixic": [ixic_map.get(d) for d in ov_labels],
         "dji": [dji_map.get(d) for d in ov_labels],
     }
@@ -369,7 +510,7 @@ def main():
         "action": action,
         "overnight": {
             "kpis": overnight_kpis,
-            "bigFlowReason": "무료 데이터 기반 자동 생성(v1): 지수/변동성/금리/달러/유가 + 내 종목 급등락을 결합",
+            "bigFlowReason": "무료 데이터 기반 자동 생성(v2): 지수/변동성/금리/달러/유가 + 내 종목 급등락을 결합",
             "series": overnight_series,
         },
         "schedule": {"econ": econ_events, "fed": fed_events},
