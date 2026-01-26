@@ -1,393 +1,1106 @@
-import json
-import math
-import re
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>미국 주식 데일리 리포트 (09:00 갱신)</title>
 
-import requests
-import feedparser
-from bs4 import BeautifulSoup
-from finance_calendars import finance_calendars as fc
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "data" / "latest.json"
-OUT.parent.mkdir(parents=True, exist_ok=True)
+  <!-- ✅ SNF 디자인 시스템: 절대 변경 금지 영역(색/타이포/카드/사이드바 룰 유지) -->
+  <style>
+    :root{
+      --eui-primary:#0047AB;
+      --eui-primary-light:#60A5FA;
+      --eui-primary-dark:#003380;
 
-KST = timezone(timedelta(hours=9))
+      --eui-page-background:#F8FAFC;
+      --eui-body-background:#F1F5F9;
+      --eui-panel-background:#FFFFFF;
+      --eui-panel-subdued:#F8FAFC;
+      --eui-panel-highlight:#F1F5F9;
 
-MY_TICKERS = ["NE","RXRX","BLDP","BMNR","NVDA","TSLA","AI","GGLL","QQQM","VRTL","CEVA","CCS"]
+      --eui-border-base:#E2E8F0;
+      --eui-border-light:#F1F5F9;
+      --eui-border-strong:#CBD5E1;
 
-KO_NAME = {
-    "NE":"노블 코퍼레이션",
-    "RXRX":"리커전 파마",
-    "BLDP":"발라드 파워",
-    "BMNR":"비트마인드(가칭)",
-    "NVDA":"엔비디아",
-    "TSLA":"테슬라",
-    "AI":"C3.ai",
-    "GGLL":"그래닛셰어즈 2x 롱 NVDA(ETF)",
-    "QQQM":"인베스코 나스닥100 미니(ETF)",
-    "VRTL":"버추얼트…(가칭)",
-    "CEVA":"세바",
-    "CCS":"센추리 커뮤니티즈",
-}
+      --eui-text-primary:#1E293B;
+      --eui-text-secondary:#64748B;
+      --eui-text-subdued:#94A3B8;
+      --eui-text-disabled:#CBD5E1;
 
-SECTOR_ETFS = [
-    ("XLK", "기술"),
-    ("XLF", "금융"),
-    ("XLY", "경기소비재"),
-    ("XLP", "필수소비재"),
-    ("XLE", "에너지"),
-    ("XLV", "헬스케어"),
-    ("XLI", "산업재"),
-    ("XLB", "소재"),
-    ("XLU", "유틸리티"),
-    ("XLRE", "부동산"),
-    ("XLC", "커뮤니케이션"),
-]
+      --eui-success:#10B981;
+      --eui-warning:#F59E0B;
+      --eui-danger:#EF4444;
+      --eui-accent:#8B5CF6;
 
-UA_HEADERS = {
-    "User-Agent": "Mozilla/5.0",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-}
+      --chart-blue-1:#003380;
+      --chart-blue-2:#0047AB;
+      --chart-blue-3:#3B82F6;
+      --chart-blue-4:#60A5FA;
 
-def safe_float(x):
-    try:
-        return float(x)
-    except Exception:
-        return None
-
-def pct_change(last, prev):
-    if last is None or prev is None or prev == 0:
-        return 0.0
-    return (last / prev - 1.0) * 100.0
-
-def stooq_csv(symbol: str) -> str:
-    # Stooq CSV endpoint (daily)
-    return f"https://stooq.com/q/d/l/?s={symbol}&i=d"
-
-def fetch_stooq_close_series(symbol: str, limit: int = 35):
-    """
-    returns (labels(list[str]), closes(list[float]))
-    """
-    url = stooq_csv(symbol.lower())
-    r = requests.get(url, headers=UA_HEADERS, timeout=25)
-    r.raise_for_status()
-    lines = r.text.strip().splitlines()
-    if len(lines) < 3:
-        return [], []
-    # header: Date,Open,High,Low,Close,Volume
-    rows = []
-    for line in lines[1:]:
-        parts = line.split(",")
-        if len(parts) < 5:
-            continue
-        dt = parts[0].strip()
-        close = safe_float(parts[4])
-        if close is None:
-            continue
-        rows.append((dt, close))
-    rows = rows[-limit:]
-    labels = [d for d, _ in rows]
-    closes = [c for _, c in rows]
-    return labels, closes
-
-def fetch_fred_dgs10(limit: int = 35):
-    # no key needed
-    url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
-    r = requests.get(url, headers=UA_HEADERS, timeout=25)
-    r.raise_for_status()
-    lines = r.text.strip().splitlines()
-    rows = []
-    for line in lines[1:]:
-        d, v = line.split(",")
-        val = safe_float(v)  # already percent
-        if val is None:
-            continue
-        rows.append((d.strip(), val))
-    rows = rows[-limit:]
-    labels = [d for d, _ in rows]
-    vals = [v for _, v in rows]
-    return labels, vals
-
-def google_news_rss(query: str, max_items: int = 10):
-    # Google News RSS
-    # NOTE: query should be url-escaped minimally (spaces -> +)
-    q = query.replace(" ", "+")
-    url = f"https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
-    feed = feedparser.parse(url)
-    items = []
-    for e in feed.entries[:max_items]:
-        title = getattr(e, "title", "").strip()
-        # source often embedded like " - Reuters"
-        source = ""
-        if " - " in title:
-            source = title.split(" - ")[-1].strip()
-        summary = re.sub(r"\s+", " ", re.sub("<[^>]+>", "", getattr(e, "summary", "")).strip())
-        items.append({
-            "title": title,
-            "why": summary[:140] + ("…" if len(summary) > 140 else ""),
-            "source": source or "Google News",
-            "star": False,
-        })
-    # de-dup by title
-    seen = set()
-    out = []
-    for it in items:
-        key = it["title"].lower()
-        if not key or key in seen:
-            continue
-        seen.add(key)
-        out.append(it)
-    return out[:5]
-
-def fetch_fed_schedule(limit: int = 6):
-    # Use Fed "Monetary Policy" upcoming dates (contains FOMC meeting + minutes)
-    url = "https://www.federalreserve.gov/monetarypolicy.htm"
-    r = requests.get(url, headers=UA_HEADERS, timeout=25)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, "html.parser")
-    text = soup.get_text("\n")
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    # crude parse: find "Upcoming Dates" block
-    try:
-        idx = lines.index("Upcoming Dates")
-    except ValueError:
-        return []
-    block = lines[idx: idx + 80]
-    events = []
-    # pattern: "Jan. 27-28 FOMC Meeting" etc
-    for ln in block:
-        if len(events) >= limit:
-            break
-        if "FOMC" in ln or "Minutes" in ln:
-            events.append(ln)
-    # format into UI rows
-    out = []
-    for ev in events[:limit]:
-        # split into date + title
-        m = re.match(r"^([A-Za-z]{3,4}\.\s*\d{1,2}(?:-\d{1,2})?)\s+(.*)$", ev)
-        if m:
-            dpart = m.group(1)
-            title = m.group(2)
-            out.append({"time": dpart, "title": title, "note": "Fed(공식 캘린더)"})
-        else:
-            out.append({"time": "-", "title": ev, "note": "Fed(공식 캘린더)"})
-    return out
-
-def build_earnings_next_7days(myset):
-    items = []
-    today = datetime.now(KST).date()
-    for i in range(0, 7):
-        d = today + timedelta(days=i)
-        try:
-            rows = fc.get_earnings_by_date(datetime(d.year, d.month, d.day, 0, 0))
-        except Exception:
-            rows = []
-        # rows: list[dict]
-        for r in rows:
-            sym = str(r.get("symbol") or r.get("Symbol") or "").upper().strip()
-            name = str(r.get("name") or r.get("Name") or "").strip()
-            timing = str(r.get("time") or r.get("Time") or r.get("timing") or "").strip()  # BMO/AMC sometimes
-            if sym in myset:
-                when = f"{d.isoformat()} {timing}".strip()
-                items.append({
-                    "when": when,
-                    "symbol": sym,
-                    "name": name or KO_NAME.get(sym, ""),
-                    "note": "실적 캘린더(Nasdaq)",
-                })
-    return items[:12]
-
-def main():
-    now_kst = datetime.now(KST)
-    updated_at = now_kst.strftime("%Y-%m-%d %H:%M KST")
-
-    # Indices / VIX
-    spx_labels, spx = fetch_stooq_close_series("^spx", 35)
-    ndq_labels, ixic = fetch_stooq_close_series("^ndq", 35)
-    dji_labels, dji = fetch_stooq_close_series("^dji", 35)
-    vix_labels, vix = fetch_stooq_close_series("vi.f", 35)
-
-    def last_prev(arr):
-        if len(arr) < 2:
-            return None, None
-        return arr[-1], arr[-2]
-
-    spx_last, spx_prev = last_prev(spx)
-    ixic_last, ixic_prev = last_prev(ixic)
-    dji_last, dji_prev = last_prev(dji)
-    vix_last, vix_prev = last_prev(vix)
-
-    overnight_kpis = [
-        {"icon":"📈","label":"S&P500","valueText": f"{spx_last:,.2f}" if spx_last else "-", "desc":"대표 지수", "changePct": round(pct_change(spx_last, spx_prev), 2) if spx_last else 0},
-        {"icon":"📈","label":"나스닥","valueText": f"{ixic_last:,.2f}" if ixic_last else "-", "desc":"기술주 비중", "changePct": round(pct_change(ixic_last, ixic_prev), 2) if ixic_last else 0},
-        {"icon":"📈","label":"다우","valueText": f"{dji_last:,.2f}" if dji_last else "-", "desc":"대형 가치주", "changePct": round(pct_change(dji_last, dji_prev), 2) if dji_last else 0},
-        {"icon":"😱","label":"VIX","valueText": f"{vix_last:,.2f}" if vix_last else "-", "desc":"불안하면 ↑", "changePct": round(pct_change(vix_last, vix_prev), 2) if vix_last else 0},
-    ]
-
-    # Macro: US10Y (FRED), DXY (DX.F), WTI (CL.F)
-    us10y_labels, us10y = fetch_fred_dgs10(35)
-    dxy_labels, dxy = fetch_stooq_close_series("dx.f", 35)
-    wti_labels, wti = fetch_stooq_close_series("cl.f", 35)
-
-    us10y_last, us10y_prev = last_prev(us10y)
-    dxy_last, dxy_prev = last_prev(dxy)
-    wti_last, wti_prev = last_prev(wti)
-
-    macro_kpis = [
-        {"icon":"🏦","label":"미국 10년 금리","valueText": f"{us10y_last:.2f}%" if us10y_last else "-", "desc":"FRED(DGS10)", "changePct": round(pct_change(us10y_last, us10y_prev), 2) if us10y_last else 0},
-        {"icon":"💵","label":"달러값(DXY)","valueText": f"{dxy_last:.2f}" if dxy_last else "-", "desc":"Stooq(DX.F)", "changePct": round(pct_change(dxy_last, dxy_prev), 2) if dxy_last else 0},
-        {"icon":"🛢️","label":"유가(WTI)","valueText": f"{wti_last:.2f}" if wti_last else "-", "desc":"Stooq(CL.F)", "changePct": round(pct_change(wti_last, wti_prev), 2) if wti_last else 0},
-    ]
-
-    # align macro labels by us10y labels for chart (simple approach)
-    labels = us10y_labels[-30:] if us10y_labels else (spx_labels[-30:] if spx_labels else [])
-    # build lookup dict for dxy/wti by date
-    dxy_map = {d: v for d, v in zip(dxy_labels, dxy)}
-    wti_map = {d: v for d, v in zip(wti_labels, wti)}
-    us10y_map = {d: v for d, v in zip(us10y_labels, us10y)}
-    macro_series = {
-        "labels": labels,
-        "us10y": [us10y_map.get(d) for d in labels],
-        "dxy": [dxy_map.get(d) for d in labels],
-        "wti": [wti_map.get(d) for d in labels],
+      --chart-gray-1:#94A3B8;
+      --chart-gray-2:#64748B;
+      --chart-gray-3:#475569;
     }
 
-    # My stocks (Stooq: ticker.us)
-    mystocks = []
-    my_changes = []
-    for t in MY_TICKERS:
-        sym = t.upper()
-        stooq_sym = f"{sym.lower()}.us"
-        lbls, closes = fetch_stooq_close_series(stooq_sym, 3)
-        last, prev = last_prev(closes)
-        chg = round(pct_change(last, prev), 2) if last and prev else 0.0
-        my_changes.append((sym, chg))
-        last_txt = f"{last:.2f}" if last else "-"
-        price_text = f"${last_txt} ({'↑' if chg>=0 else '↓'}{abs(chg):.2f}%)" if last else "-"
-        mystocks.append({
-            "symbol": sym,
-            "name": KO_NAME.get(sym, ""),
-            "koName": KO_NAME.get(sym, ""),
-            "last": last_txt if last else "-",
-            "changePct": chg,
-            "priceText": price_text,
-            "news": "",
-            "nextEvent": "",
-            "memo": "",
-        })
-
-    # Sectors from SPDR sector ETFs
-    sectors = []
-    for etf, ko in SECTOR_ETFS:
-        lbls, closes = fetch_stooq_close_series(f"{etf.lower()}.us", 3)
-        last, prev = last_prev(closes)
-        chg = round(pct_change(last, prev), 2) if last and prev else 0.0
-        sectors.append({"name": ko, "changePct": chg, "symbol": etf})
-
-    # Earnings (next 7 days, my tickers only)
-    myset = set(MY_TICKERS)
-    upcoming = build_earnings_next_7days(myset)
-
-    # Movers: use myStocks top/bottom as "급등락" (실적 섹션의 대체 카드)
-    my_sorted = sorted(mystocks, key=lambda x: x.get("changePct", 0), reverse=True)
-    movers = []
-    for x in (my_sorted[:3] + my_sorted[-3:]):
-        movers.append({
-            "symbol": x["symbol"],
-            "name": x.get("name",""),
-            "changePct": x.get("changePct", 0),
-            "why": "내 종목 기준 급등락(프록시) — 실적 연동 여부는 뉴스 확인",
-        })
-
-    # Schedule
-    fed_events = fetch_fed_schedule(6)
-    # econ: 넣을만한 무료 정식 캘린더가 빡세서, v1은 "내 종목 실적/주요 이벤트"로 채움
-    econ_events = []
-    for u in upcoming[:6]:
-        econ_events.append({"time": u["when"].split()[0], "title": f"Earnings: {u['symbol']}", "note": u.get("name","")})
-    if not econ_events:
-        econ_events = []
-
-    # News Top5 (market general + tickers mix)
-    news = google_news_rss("US stock market futures S&P 500", 12)
-    if len(news) < 5:
-        extra = google_news_rss("Nasdaq earnings", 12)
-        news = (news + extra)[:5]
-
-    # Mood/Action simple rule
-    spx_chg = pct_change(spx_last, spx_prev) if spx_last and spx_prev else 0
-    vix_val = vix_last if vix_last else None
-    if spx_chg > 0.5 and (vix_val is None or vix_val < 18):
-        mood = {"value": "좋음", "reason": "지수 강세 + 변동성 낮은 편"}
-        action = {"value": "매수(조금)", "note": "분할/소액 중심", "beginnerMemo": "급할수록 분할. 한 번에 올인 금지."}
-    elif spx_chg < -0.5 and (vix_val is not None and vix_val > 20):
-        mood = {"value": "나쁨", "reason": "지수 약세 + 변동성 상승"}
-        action = {"value": "관망", "note": "리스크 관리 우선", "beginnerMemo": "손실 줄이는 날이 진짜 수익."}
-    else:
-        mood = {"value": "애매", "reason": "방향성 약함(보합/혼조)"}
-        action = {"value": "관망", "note": "확실한 구간까지 기다리기", "beginnerMemo": "관망도 전략. 애매하면 쉬는 게 이김."}
-
-    # One-line summary
-    top = max(mystocks, key=lambda x: x.get("changePct", 0), default=None)
-    bot = min(mystocks, key=lambda x: x.get("changePct", 0), default=None)
-    one_line = (
-        f"지수 {('상승' if spx_chg>=0 else '하락')}({spx_chg:+.2f}%), "
-        f"10Y {pct_change(us10y_last, us10y_prev):+.2f}%, "
-        f"DXY {pct_change(dxy_last, dxy_prev):+.2f}%, "
-        f"WTI {pct_change(wti_last, wti_prev):+.2f}%. "
-        f"내 종목 TOP: {top['symbol']}({top['changePct']:+.2f}%) / "
-        f"BOT: {bot['symbol']}({bot['changePct']:+.2f}%)."
-        if top and bot else "자동 업데이트: 지수/금리/달러/유가 + 내 종목 변동 반영"
-    )
-
-    # Risk
-    max_abs = max((abs(x.get("changePct",0)) for x in mystocks), default=0)
-    risk = {
-        "speed": f"내 종목 최대 절대등락: {max_abs:.2f}%",
-        "vol": f"VIX: {vix_last:.2f}" if vix_last else "VIX: -",
-        "rule": f"오늘 액션: {action['value']} (무리 금지)",
+    body{
+      font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background:var(--eui-page-background);
+      color:var(--eui-text-primary);
     }
 
-    # Overnight series (30)
-    ov_labels = spx_labels[-30:] if spx_labels else []
-    # align other indices by date
-    ixic_map = {d: v for d, v in zip(ndq_labels, ixic)}
-    dji_map = {d: v for d, v in zip(dji_labels, dji)}
-    overnight_series = {
-        "labels": ov_labels,
-        "spx": [v for v in spx[-30:]] if spx else [],
-        "ixic": [ixic_map.get(d) for d in ov_labels],
-        "dji": [dji_map.get(d) for d in ov_labels],
+    .sidebar{
+      background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
+      box-shadow: 1px 0 0 rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease;
     }
 
-    payload = {
-        "updatedAt": updated_at,
-        "oneLine": one_line,
-        "mood": mood,
-        "action": action,
-        "overnight": {
-            "kpis": overnight_kpis,
-            "bigFlowReason": "무료 데이터 기반 자동 생성(v1): 지수/변동성/금리/달러/유가 + 내 종목 급등락을 결합",
-            "series": overnight_series,
+    .sidebar-item{
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+      color: #94A3B8;
+      border-radius: 8px;
+    }
+
+    .sidebar-item:hover{
+      background: rgba(255, 255, 255, 0.08);
+      border-left-color: #60A5FA;
+      color: #E2E8F0;
+    }
+
+    .sidebar-item.active{
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0.08) 100%);
+      border-left-color: #3B82F6;
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    /* ✅ 미세 조정(스크롤 전제): 카드/메인 패딩 아주 살짝 축소 */
+    .card{
+      background:#FFFFFF;
+      border-radius:16px;
+      padding:22px;             /* 24px -> 22px */
+      box-shadow:0 1px 3px rgba(0,0,0,0.05);
+      border:1px solid #F1F5F9;
+    }
+    .card-hover:hover{
+      box-shadow:0 4px 12px rgba(0,0,0,0.08);
+      transform:translateY(-2px);
+      transition:all 0.2s ease;
+    }
+
+    .skeleton{
+      background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s ease-in-out infinite;
+      border-radius: 8px;
+    }
+    @keyframes loading{
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .fade-in{ animation: fadeIn 0.22s ease-in; }
+    @keyframes fadeIn{
+      from{ opacity:0; transform:translateY(8px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    .panel{ display:none; }
+    .panel.active{ display:block; }
+
+    .kpi-strip{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    @media (max-width:1024px){
+      .kpi-strip{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .kpi-mini{
+      background: #FFFFFF;
+      border: 1px solid #F1F5F9;
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .kpi-mini .label{
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--eui-text-subdued);
+    }
+    .kpi-mini .value{
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--eui-text-primary);
+      line-height: 1.2;
+    }
+    .kpi-mini .sub{
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--eui-text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ✅ 최상단 KPI 시각화(단어 색상) */
+    .tone-good{ color: var(--eui-success); }
+    .tone-bad{ color: var(--eui-danger); }
+    .tone-neutral{ color: #0F172A; } /* 검정 계열 */
+
+    /* ✅ (1) 스크롤바 생겨도 레이아웃 밀림 방지 */
+    #mainScroll{
+      scrollbar-gutter: stable; /* 지원 브라우저 */
+      overflow-y: auto;
+    }
+    /* fallback: 스크롤바 영역을 항상 확보(밀림 방지) */
+    @supports not (scrollbar-gutter: stable){
+      #mainScroll{ overflow-y: scroll; }
+    }
+
+    @media (max-width:768px){
+      .sidebar{
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        width: 280px;
+        transform: translateX(-100%);
+        z-index: 1000;
+        box-shadow: none;
+      }
+      .sidebar.open{
+        transform: translateX(0);
+        box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+      }
+      .main-content{ padding: 14px; } /* 16px -> 14px */
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 모바일 햄버거 -->
+  <button class="fixed top-4 left-4 z-[1001] bg-white p-3 rounded-xl border border-slate-200 shadow-sm md:hidden"
+    onclick="toggleSidebar()"
+    aria-label="메뉴">
+    <svg class="w-6 h-6 text-[#0047AB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+  <div id="overlay" class="fixed inset-0 bg-black/50 z-[999] hidden" onclick="closeSidebar()"></div>
+
+  <div class="flex min-h-screen">
+    <!-- 사이드바 -->
+    <aside id="sidebar" class="sidebar w-72 p-5 flex flex-col sticky top-0 h-screen overflow-y-auto">
+      <div class="mb-8">
+        <h1 class="text-xl font-bold text-white mb-1">US Daily Report</h1>
+        <p class="text-sm text-slate-400">매일 09:00 KST 자동 갱신</p>
+      </div>
+
+      <nav class="flex-1">
+        <ul class="space-y-2 text-[15px]">
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg active" data-panel="p1" onclick="openPanel('p1', event)">데일리 브리핑</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p2" onclick="openPanel('p2', event)">마켓 스냅샷</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p3" onclick="openPanel('p3', event)">촉매 / 일정</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p4" onclick="openPanel('p4', event)">매크로 체력</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p5" onclick="openPanel('p5', event)">헤드라인 TOP5</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p6" onclick="openPanel('p6', event)">실적 / 가이던스</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p7" onclick="openPanel('p7', event)">섹터 / 수급</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p8" onclick="openPanel('p8', event)">내 종목 점검</button></li>
+          <li><button class="sidebar-item w-full text-left px-4 py-3 rounded-lg" data-panel="p9" onclick="openPanel('p9', event)">리스크 체크</button></li>
+        </ul>
+      </nav>
+
+      <div class="mt-auto pt-6 border-t border-slate-700/50">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-sm font-medium text-slate-300">양두킹 형님</p>
+          <span class="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded">v3.1</span>
+        </div>
+        <p class="text-xs text-slate-500">data/latest.json</p>
+        <p id="last-load-time" class="text-xs text-slate-500 mt-1">마지막 로드: -</p>
+        <div class="mt-3 flex items-center justify-between gap-2">
+          <span id="next-update" class="text-xs text-slate-500">다음 갱신: -</span>
+          <button class="text-xs text-blue-400 font-semibold hover:underline" onclick="loadData(true)">지금 새로고침</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 메인(스크롤 컨테이너) -->
+    <main id="mainScroll" class="flex-1 p-7 overflow-auto bg-slate-50 main-content">
+      <!-- 상단 헤더 -->
+      <div class="mb-6">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h2 class="text-3xl font-bold text-slate-800">미국 주식 데일리 리포트</h2>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-slate-400">마지막 업데이트</p>
+            <p id="updatedAt" class="text-sm font-semibold text-slate-700">-</p>
+          </div>
+        </div>
+
+        <!-- 상단 KPI 스트립 -->
+        <div class="mt-6 kpi-strip">
+          <div class="kpi-mini">
+            <div class="label">Mood</div>
+            <div id="kpiMood" class="value"><span class="skeleton inline-block h-6 w-24"></span></div>
+            <div id="kpiMoodSub" class="sub"><span class="skeleton inline-block h-4 w-40"></span></div>
+          </div>
+          <div class="kpi-mini">
+            <div class="label">Action</div>
+            <div id="kpiAction" class="value"><span class="skeleton inline-block h-6 w-24"></span></div>
+            <div id="kpiActionSub" class="sub"><span class="skeleton inline-block h-4 w-40"></span></div>
+          </div>
+          <div class="kpi-mini">
+            <div class="label">S&P500</div>
+            <div id="kpiSPX" class="value"><span class="skeleton inline-block h-6 w-28"></span></div>
+            <div id="kpiSPXSub" class="sub"><span class="skeleton inline-block h-4 w-32"></span></div>
+          </div>
+          <div class="kpi-mini">
+            <div class="label">US 10Y</div>
+            <div id="kpiUS10Y" class="value"><span class="skeleton inline-block h-6 w-28"></span></div>
+            <div id="kpiUS10YSub" class="sub"><span class="skeleton inline-block h-4 w-32"></span></div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Current Category</p>
+          <h3 id="panelTitle" class="text-xl font-bold text-slate-900 mt-1">데일리 브리핑</h3>
+        </div>
+      </div>
+
+      <!-- 데일리 브리핑 -->
+      <section id="p1" class="panel active fade-in">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="card card-hover lg:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Today</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-4">오늘 한 줄 요약</h4>
+            <div id="oneLine" class="text-sm text-slate-600 leading-relaxed">
+              <div class="skeleton h-6 w-3/4"></div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">시장 분위기</p>
+                <div class="flex items-center gap-3 flex-wrap">
+                  <span id="moodBadge" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold bg-slate-100 text-slate-600">로딩…</span>
+                  <span id="moodReason" class="text-sm text-slate-600">-</span>
+                </div>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">오늘 할 행동</p>
+                <div class="flex items-center gap-3 flex-wrap">
+                  <span id="actionBadge" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">로딩…</span>
+                  <span id="actionNote" class="text-sm text-slate-600">-</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-5 bg-blue-50 border-l-4 border-blue-600 p-5 rounded-xl">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-xl">💡</span>
+                </div>
+                <div>
+                  <h5 class="font-bold text-slate-800 mb-2">초보용 메모</h5>
+                  <p class="text-sm text-slate-600 leading-relaxed" id="beginnerMemo">
+                    “행동은 1개만 고르면 돼요. 오늘은 ‘관망’처럼 확실히.”
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Action Items</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-4">오늘의 할 일 3개</h4>
+            <div id="todo3" class="space-y-3">
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 마켓 스냅샷 -->
+      <section id="p2" class="panel fade-in">
+        <div class="card card-hover">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Overnight</p>
+          <h4 class="text-xl font-bold text-slate-800">어젯밤 미국시장 결과</h4>
+          <p class="text-sm text-slate-500 mt-1">대표 3지수 + VIX + 큰 흐름</p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6" id="indexKpis">
+            <div class="card"><div class="skeleton h-28"></div></div>
+            <div class="card"><div class="skeleton h-28"></div></div>
+            <div class="card"><div class="skeleton h-28"></div></div>
+            <div class="card"><div class="skeleton h-28"></div></div>
+          </div>
+
+          <div class="mt-6 bg-slate-50 border border-slate-100 rounded-xl p-4">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Big Flow</p>
+            <p id="overnightReason" class="text-sm text-slate-600 leading-relaxed">
+              <span class="skeleton inline-block h-5 w-5/6"></span>
+            </p>
+          </div>
+
+          <div class="mt-6 relative" style="height: 340px;">
+            <canvas id="overnightChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- 촉매/일정 -->
+      <section id="p3" class="panel fade-in">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Catalyst</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-1">경제 발표</h4>
+            <p class="text-sm text-slate-500 mb-5">몇 시에 뭐가 있다</p>
+            <div id="econEvents" class="space-y-3">
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+            </div>
+          </div>
+
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Fed</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-1">연준 일정</h4>
+            <p class="text-sm text-slate-500 mb-5">발언/회의/회의록</p>
+            <div id="fedEvents" class="space-y-3">
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 매크로 체력 -->
+      <section id="p4" class="panel fade-in">
+        <div class="card card-hover">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Macro</p>
+          <h4 class="text-xl font-bold text-slate-800 mb-1">금리 · 달러 · 유가</h4>
+          <p class="text-sm text-slate-500">시장 체력 체크</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6" id="macroKpis">
+            <div class="card"><div class="skeleton h-28"></div></div>
+            <div class="card"><div class="skeleton h-28"></div></div>
+            <div class="card"><div class="skeleton h-28"></div></div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <div class="bg-white rounded-2xl border border-slate-100 p-4">
+              <h5 class="text-lg font-bold text-slate-800 mb-3">최근 30일 추이</h5>
+              <div class="relative" style="height: 320px;">
+                <canvas id="macroLineChart"></canvas>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-100 p-4">
+              <h5 class="text-lg font-bold text-slate-800 mb-3">초보용 해석</h5>
+              <div class="space-y-3 text-sm text-slate-600">
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                  <p class="font-semibold text-slate-800 mb-1">미국 국채금리</p>
+                  <p id="bondHint">올라가면 보통 주식에 부담일 때가 많음</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                  <p class="font-semibold text-slate-800 mb-1">달러값</p>
+                  <p id="dollarHint">강/약이 수출기업, 기술주에 영향 줄 수 있음</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                  <p class="font-semibold text-slate-800 mb-1">유가</p>
+                  <p id="oilHint">인플레(물가)랑 연결</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 헤드라인 TOP5 -->
+      <section id="p5" class="panel fade-in">
+        <div class="card card-hover">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Headlines</p>
+          <h4 class="text-xl font-bold text-slate-800 mb-1">오늘의 핵심 뉴스 5개</h4>
+          <p class="text-sm text-slate-500 mb-6">내 종목 관련이면 자동 ⭐ 표시됨</p>
+          <div id="newsTop5" class="space-y-4">
+            <div class="skeleton h-10"></div>
+            <div class="skeleton h-10"></div>
+            <div class="skeleton h-10"></div>
+            <div class="skeleton h-10"></div>
+            <div class="skeleton h-10"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 실적/가이던스 -->
+      <section id="p6" class="panel fade-in">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Earnings</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-1">이번주 실적 발표</h4>
+            <p class="text-sm text-slate-500 mb-5">내 종목이면 자동 ⭐</p>
+            <div id="earningsList" class="space-y-3">
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+            </div>
+          </div>
+
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Movers</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-1">실적 후 급등락</h4>
+            <p class="text-sm text-slate-500 mb-5">왜 움직였는지 한 줄</p>
+            <div id="earningsMovers" class="space-y-3">
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+              <div class="skeleton h-8"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 섹터/수급 -->
+      <section id="p7" class="panel fade-in">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Sectors</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-1">섹터 성과</h4>
+            <p class="text-sm text-slate-500 mb-5">돈이 어디로 몰리는지</p>
+            <div class="relative" style="height: 340px;">
+              <canvas id="sectorBar"></canvas>
+            </div>
+          </div>
+
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Summary</p>
+            <h4 class="text-xl font-bold text-slate-800 mb-5">TOP / BOTTOM</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+                <p class="text-xs font-semibold uppercase tracking-wider text-emerald-600 mb-2">TOP</p>
+                <div id="sectorTop" class="space-y-2 text-sm text-slate-700">
+                  <div class="skeleton h-6"></div>
+                  <div class="skeleton h-6"></div>
+                  <div class="skeleton h-6"></div>
+                </div>
+              </div>
+              <div class="bg-red-50 border border-red-100 rounded-xl p-4">
+                <p class="text-xs font-semibold uppercase tracking-wider text-red-600 mb-2">BOTTOM</p>
+                <div id="sectorBottom" class="space-y-2 text-sm text-slate-700">
+                  <div class="skeleton h-6"></div>
+                  <div class="skeleton h-6"></div>
+                  <div class="skeleton h-6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 내 종목 점검 -->
+      <section id="p8" class="panel fade-in">
+        <div class="mb-4">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">My List</p>
+          <h4 class="text-xl font-bold text-slate-800">내 종목 리스트 빠른 점검</h4>
+          <p class="text-sm text-slate-500 mt-1">2줄 템플릿</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <table class="w-full">
+            <thead class="bg-slate-50 border-b border-slate-200">
+              <tr>
+                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">종목</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">2줄 템플릿</th>
+                <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">오늘 가격 흐름</th>
+              </tr>
+            </thead>
+            <tbody id="myStocksBody" class="divide-y divide-slate-100">
+              <tr><td class="px-6 py-4" colspan="3"><div class="skeleton h-10"></div></td></tr>
+              <tr><td class="px-6 py-4" colspan="3"><div class="skeleton h-10"></div></td></tr>
+              <tr><td class="px-6 py-4" colspan="3"><div class="skeleton h-10"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 리스크 체크 -->
+      <section id="p9" class="panel fade-in">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Risk</p>
+            <h4 class="text-lg font-bold text-slate-800 mb-3">속도(급등/급락)</h4>
+            <p id="riskSpeed" class="text-sm text-slate-600"><span class="skeleton inline-block h-5 w-5/6"></span></p>
+          </div>
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Volatility</p>
+            <h4 class="text-lg font-bold text-slate-800 mb-3">변동성(요동)</h4>
+            <p id="riskVol" class="text-sm text-slate-600"><span class="skeleton inline-block h-5 w-5/6"></span></p>
+          </div>
+          <div class="card card-hover">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Rule</p>
+            <h4 class="text-lg font-bold text-slate-800 mb-3">내 기준 룰</h4>
+            <p id="riskRule" class="text-sm text-slate-600"><span class="skeleton inline-block h-5 w-5/6"></span></p>
+          </div>
+        </div>
+      </section>
+
+      <div class="text-xs text-slate-400 py-8"></div>
+    </main>
+  </div>
+
+<script>
+  // Chart.js 공통 옵션
+  Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+  Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--eui-text-secondary').trim();
+
+  const commonChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: getComputedStyle(document.documentElement).getPropertyValue('--eui-text-primary').trim(),
+          padding: 12,
+          font: { size: 11 },
+          usePointStyle: true,
+          pointStyle: 'circle'
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        titleColor: getComputedStyle(document.documentElement).getPropertyValue('--eui-text-primary').trim(),
+        bodyColor: getComputedStyle(document.documentElement).getPropertyValue('--eui-text-secondary').trim(),
+        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--eui-primary').trim(),
+        borderWidth: 1,
+        padding: 12,
+        boxPadding: 6,
+        usePointStyle: true,
+        cornerRadius: 8
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--eui-text-secondary').trim() } },
+      y: { grid: { color: getComputedStyle(document.documentElement).getPropertyValue('--eui-border-light').trim() },
+           ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--eui-text-secondary').trim() } }
+    }
+  };
+
+  function getVar(name){
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  const C = {
+    blue1: getVar('--chart-blue-1'),
+    blue2: getVar('--chart-blue-2'),
+    blue3: getVar('--chart-blue-3'),
+    blue4: getVar('--chart-blue-4'),
+    gray1: getVar('--chart-gray-1'),
+  };
+
+  // ✅ (7) 종목 한글 병기 매핑(프론트 보조)
+  const KO_NAME = {
+    NE: '노블 코퍼레이션',
+    RXRX: '리커전 파마',
+    BLDP: '발라드 파워',
+    BMNR: '비트마인드(가칭)',   // 필요하면 형님이 원하는 표기로 교체
+    NVDA: '엔비디아',
+    TSLA: '테슬라',
+    AI: 'C3.ai',
+    GGLL: '그래닛셰어즈 2x 롱 NVDA(ETF)',
+    QQQM: '인베스코 나스닥100 미니(ETF)',
+    VRTL: '버추얼트…(가칭)',   // 필요하면 교체
+    CEVA: '세바',
+    CCS: '센추리 커뮤니티즈'
+  };
+
+  function fmtPct(x){
+    if (x === null || x === undefined || x === '') return '-';
+    const n = Number(x);
+    if (Number.isNaN(n)) return String(x);
+    const arrow = n >= 0 ? '↑' : '↓';
+    return `${arrow} ${Math.abs(n).toFixed(2)}%`;
+  }
+
+  function moodBadgeStyle(mood){
+    if(mood === '좋음') return 'bg-emerald-100 text-emerald-700';
+    if(mood === '나쁨') return 'bg-red-100 text-red-700';
+    return 'bg-slate-100 text-slate-700';
+  }
+  function actionBadgeStyle(action){
+    if(action.includes('매수')) return 'bg-blue-100 text-blue-700';
+    if(action.includes('정리')) return 'bg-red-100 text-red-700';
+    if(action.includes('관망')) return 'bg-slate-100 text-slate-700';
+    return 'bg-slate-100 text-slate-700';
+  }
+
+  function escapeHtml(str){
+    if(str === null || str === undefined) return '';
+    return String(str)
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
+
+  function pctColorClass(x){
+    const n = Number(x);
+    if (Number.isNaN(n)) return 'text-slate-600 bg-slate-100';
+    return n >= 0 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
+  }
+
+  function itemRow(time, title, note){
+    return `
+      <div class="flex items-start justify-between gap-4 p-3 rounded-lg hover:bg-slate-50 transition-all">
+        <div>
+          <p class="font-semibold text-slate-800">${escapeHtml(time)} · ${escapeHtml(title)}</p>
+          <p class="text-xs text-slate-500">${escapeHtml(note || '')}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  function newsCard(n){
+    const star = n.star ? '⭐ ' : '';
+    return `
+      <div class="p-4 rounded-xl border border-slate-100 hover:bg-slate-50 transition-all">
+        <p class="font-semibold text-slate-800">${star}${escapeHtml(n.title)}</p>
+        <p class="text-sm text-slate-600 mt-1">${escapeHtml(n.why || '')}</p>
+        <p class="text-xs text-slate-400 mt-2">${escapeHtml(n.source || '')}</p>
+      </div>
+    `;
+  }
+
+  function kpiCard(icon, label, valueText, desc, changePct){
+    return `
+      <div class="card card-hover">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+            <span class="text-2xl">${icon}</span>
+          </div>
+          <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">${escapeHtml(label)}</span>
+        </div>
+        <h3 class="text-4xl font-bold text-slate-900 mb-2">${escapeHtml(valueText)}</h3>
+        <p class="text-sm text-slate-500 mb-3">${escapeHtml(desc)}</p>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-sm font-semibold ${pctColorClass(changePct)}">
+            ${fmtPct(changePct)}
+          </span>
+          <span class="text-xs text-slate-400">vs 전일</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // ✅ (7) 내 종목: 2줄 템플릿 + $ 표시 + 한글 병기
+  function stockRow(s){
+    const pct = Number(s.changePct);
+    const color = Number.isNaN(pct) ? 'text-slate-600' : (pct >= 0 ? 'text-emerald-600' : 'text-red-600');
+
+    const sym = String(s.symbol || '').toUpperCase();
+    const ko = (s.koName || s.name || KO_NAME[sym] || '').trim();
+
+    const line1 = `1) 오늘 가격 흐름: ${escapeHtml(s.priceText || '-')}`;
+    const key = (s.news || s.nextEvent || s.memo || '').trim();
+    const line2 = `2) 핵심 체크: ${escapeHtml(key || '없음')}`;
+
+    const last = (s.last === null || s.last === undefined || s.last === '') ? '-' : String(s.last);
+
+    return `
+      <tr class="hover:bg-slate-50 transition-colors align-top">
+        <td class="px-6 py-4">
+          <p class="font-semibold text-slate-800">
+            ${escapeHtml(sym)}
+            ${ko ? `<span class="text-xs text-slate-500 font-semibold ml-1">(${escapeHtml(ko)})</span>` : ``}
+          </p>
+        </td>
+        <td class="px-6 py-4">
+          <div class="space-y-1 text-sm text-slate-600">
+            <p>${line1}</p>
+            <p>${line2}</p>
+          </div>
+        </td>
+        <td class="px-6 py-4 text-right">
+          <p class="font-semibold text-slate-800">${last === '-' ? '-' : '$' + escapeHtml(last)}</p>
+          <p class="text-sm font-semibold ${color}">${fmtPct(s.changePct)}</p>
+        </td>
+      </tr>
+    `;
+  }
+
+  // ✅ KPI 단어 톤(초록/빨강/검정)
+  function toneClassForMood(mood){
+    if(mood === '좋음') return 'tone-good';
+    if(mood === '나쁨') return 'tone-bad';
+    return 'tone-neutral';
+  }
+  function toneClassForAction(action){
+    if(!action) return 'tone-neutral';
+    if(action.includes('매수')) return 'tone-good';
+    if(action.includes('정리')) return 'tone-bad';
+    return 'tone-neutral';
+  }
+
+  const charts = { overnight:null, macro:null, sector:null };
+  function destroyChart(key){
+    if(charts[key] && typeof charts[key].destroy === 'function'){
+      charts[key].destroy();
+      charts[key] = null;
+    }
+  }
+  function hexToRgba(hex, a){
+    const h = hex.replace('#','');
+    const r = parseInt(h.slice(0,2),16);
+    const g = parseInt(h.slice(2,4),16);
+    const b = parseInt(h.slice(4,6),16);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  }
+
+  const panelTitles = {
+    p1: '데일리 브리핑',
+    p2: '마켓 스냅샷',
+    p3: '촉매 / 일정',
+    p4: '매크로 체력',
+    p5: '헤드라인 TOP5',
+    p6: '실적 / 가이던스',
+    p7: '섹터 / 수급',
+    p8: '내 종목 점검',
+    p9: '리스크 체크'
+  };
+
+  function openPanel(id, ev){
+    document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+    if(ev?.currentTarget) ev.currentTarget.classList.add('active');
+
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target){
+      target.classList.add('active');
+      document.getElementById('panelTitle').textContent = panelTitles[id] || '리포트';
+      target.classList.remove('fade-in'); void target.offsetWidth; target.classList.add('fade-in');
+    }
+
+    const main = document.getElementById('mainScroll');
+    if(main) main.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if(window.innerWidth < 768) closeSidebar();
+  }
+
+  function toggleSidebar(){
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('hidden');
+  }
+  function closeSidebar(){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.add('hidden');
+  }
+
+  // 09:00 KST 자동 리로드(프론트 보조)
+  function nextUpdateKST(){
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const kstNow = new Date(utc + 9 * 60 * 60 * 1000);
+
+    const target = new Date(kstNow);
+    target.setHours(9,0,10,0);
+    if(kstNow.getTime() >= target.getTime()) target.setDate(target.getDate() + 1);
+
+    const targetUtc = target.getTime() - 9 * 60 * 60 * 1000;
+    const localTarget = new Date(targetUtc - (now.getTimezoneOffset() * 60 * 1000));
+    return { targetKst: target, localTarget };
+  }
+  function formatKst(dtKst){
+    const y = dtKst.getFullYear();
+    const m = String(dtKst.getMonth()+1).padStart(2,'0');
+    const d = String(dtKst.getDate()).padStart(2,'0');
+    const hh = String(dtKst.getHours()).padStart(2,'0');
+    const mm = String(dtKst.getMinutes()).padStart(2,'0');
+    return `${y}-${m}-${d} ${hh}:${mm} KST`;
+  }
+  function scheduleAutoRefreshAt9(){
+    const { targetKst, localTarget } = nextUpdateKST();
+    const nextEl = document.getElementById('next-update');
+    if(nextEl) nextEl.textContent = '다음 갱신: ' + formatKst(targetKst);
+
+    const delay = Math.max(0, localTarget.getTime() - Date.now());
+    setTimeout(async ()=>{
+      await loadData(true);
+      scheduleAutoRefreshAt9();
+    }, delay);
+
+    setInterval(()=> loadData(true), 5 * 60 * 1000);
+  }
+
+  // ✅ (fetch) 캐시 버스터: Pages/브라우저 캐시로 최신 json이 안 뜨는 거 방지
+  async function loadData(force=false){
+    try{
+      const url = force ? `data/latest.json?v=${Date.now()}` : `data/latest.json`;
+      const res = await fetch(url, { cache: force ? 'no-store' : 'default' });
+      if(!res.ok) throw new Error('latest.json not found');
+      const data = await res.json();
+      renderAll(data);
+    }catch(e){
+      renderAll(sampleData());
+    }
+  }
+
+  function buildSymbolSet(myStocks){
+    const set = new Set();
+    (myStocks || []).forEach(s=>{
+      const sym = String(s.symbol || '').trim().toUpperCase();
+      if(sym) set.add(sym);
+    });
+    return set;
+  }
+  function containsTicker(text, ticker){
+    if(!text || !ticker) return false;
+    const esc = ticker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`\\b${esc}\\b`, 'i');
+    return re.test(text);
+  }
+  function applyAutoStars(data){
+    const symbols = buildSymbolSet(data.myStocks);
+    const list = data.newsTop5 || [];
+    list.forEach(n=>{
+      if(n.star) return;
+      const blob = `${n.title||''} ${n.why||''} ${n.source||''}`;
+      for(const sym of symbols){
+        if(containsTicker(blob, sym)){
+          n.star = true;
+          break;
+        }
+      }
+    });
+
+    const upcoming = data.earnings?.upcoming || [];
+    upcoming.forEach(x=>{
+      const sym = String(x.symbol||'').toUpperCase();
+      x._star = symbols.has(sym);
+    });
+  }
+
+  function renderAll(data){
+    applyAutoStars(data);
+
+    document.getElementById('updatedAt').textContent = data.updatedAt || '-';
+    document.getElementById('last-load-time').textContent = '마지막 로드: ' + (data.updatedAt || '-');
+
+    // KPI 스트립
+    const mood = data.mood?.value || '애매';
+    const moodReason = data.mood?.reason || '-';
+    const moodEl = document.getElementById('kpiMood');
+    moodEl.textContent = mood;
+    moodEl.className = `value ${toneClassForMood(mood)}`;
+    document.getElementById('kpiMoodSub').textContent = moodReason;
+
+    const action = data.action?.value || '관망';
+    const actionNote = data.action?.note || '-';
+    const actionEl = document.getElementById('kpiAction');
+    actionEl.textContent = action;
+    actionEl.className = `value ${toneClassForAction(action)}`;
+    document.getElementById('kpiActionSub').textContent = actionNote;
+
+    const okpis = data.overnight?.kpis || [];
+    const spx = okpis.find(x => String(x.label||'').toLowerCase().includes('s&p')) || null;
+    document.getElementById('kpiSPX').textContent = spx ? `${spx.valueText}` : '-';
+    document.getElementById('kpiSPXSub').textContent = spx ? `전일 ${fmtPct(spx.changePct)}` : '-';
+
+    const mkpis = data.macro?.kpis || [];
+    const us10y = mkpis.find(x => String(x.label||'').includes('10')) || null;
+    document.getElementById('kpiUS10Y').textContent = us10y ? `${us10y.valueText}` : '-';
+    document.getElementById('kpiUS10YSub').textContent = us10y ? `전일 ${fmtPct(us10y.changePct)}` : '-';
+
+    // p1
+    document.getElementById('oneLine').textContent = data.oneLine || '-';
+
+    const moodBadge = document.getElementById('moodBadge');
+    moodBadge.className = `inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold ${moodBadgeStyle(mood)}`;
+    moodBadge.textContent = mood;
+    document.getElementById('moodReason').textContent = moodReason;
+
+    const actionBadge = document.getElementById('actionBadge');
+    actionBadge.className = `inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold ${actionBadgeStyle(action)}`;
+    actionBadge.textContent = action;
+    document.getElementById('actionNote').textContent = actionNote;
+    document.getElementById('beginnerMemo').textContent = data.action?.beginnerMemo || document.getElementById('beginnerMemo').textContent;
+
+    const todo = document.getElementById('todo3');
+    const t = data.todo3 || [];
+    todo.innerHTML = t.length ? t.slice(0,3).map((x,i)=>`
+      <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-all">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center font-bold text-slate-800">${i+1}</div>
+        <p class="text-sm text-slate-700 font-semibold">${escapeHtml(x)}</p>
+      </div>
+    `).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+
+    // p2
+    const idxKpis = document.getElementById('indexKpis');
+    idxKpis.innerHTML = okpis.length
+      ? okpis.map(x => kpiCard(x.icon || '📈', x.label, x.valueText, x.desc, x.changePct)).join('')
+      : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+
+    document.getElementById('overnightReason').textContent = data.overnight?.bigFlowReason || '-';
+
+    destroyChart('overnight');
+    const ov = data.overnight?.series || null;
+    const ovCtx = document.getElementById('overnightChart');
+    if(ovCtx && ov?.labels?.length){
+      charts.overnight = new Chart(ovCtx, {
+        type:'line',
+        data:{
+          labels: ov.labels,
+          datasets:[
+            { label:'S&P500', data: ov.spx || [], borderColor: C.blue2, backgroundColor:'rgba(0,71,171,0.10)', borderWidth:2.5, fill:true, tension:0.4, pointRadius:0 },
+            { label:'나스닥', data: ov.ixic || [], borderColor: C.blue3, backgroundColor:'rgba(59,130,246,0.08)', borderWidth:2.5, fill:true, tension:0.4, pointRadius:0 },
+            { label:'다우', data: ov.dji || [], borderColor: C.gray1, backgroundColor:'rgba(148,163,184,0.06)', borderWidth:2.5, fill:true, tension:0.4, pointRadius:0 },
+          ]
         },
-        "schedule": {"econ": econ_events, "fed": fed_events},
-        "macro": {"kpis": macro_kpis, "series": macro_series},
-        "newsTop5": news,
-        "earnings": {"upcoming": upcoming, "movers": movers},
-        "sectors": [{"name": x["name"], "changePct": x["changePct"]} for x in sectors],
-        "myStocks": mystocks,
-        "risk": risk,
-        "todo3": [
-            "내 종목 변동 상위/하위 3개만 따로 체크",
-            "급등/급락 종목은 뉴스 확인 후 대응",
-            "오늘은 ‘한 번만’ 매매 규칙 지키기"
-        ],
+        options: commonChartOptions
+      });
     }
 
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("Wrote:", OUT)
+    // p3
+    const econ = document.getElementById('econEvents');
+    const fed = document.getElementById('fedEvents');
+    const econList = data.schedule?.econ || [];
+    const fedList = data.schedule?.fed || [];
+    econ.innerHTML = econList.length ? econList.map(x => itemRow(x.time, x.title, x.note)).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+    fed.innerHTML  = fedList.length  ? fedList.map(x => itemRow(x.time, x.title, x.note)).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
 
-if __name__ == "__main__":
-    main()
+    // p4
+    const macroKpis = document.getElementById('macroKpis');
+    macroKpis.innerHTML = mkpis.length ? mkpis.map(x => kpiCard(x.icon || '🏦', x.label, x.valueText, x.desc, x.changePct)).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+
+    destroyChart('macro');
+    const m = data.macro?.series || null;
+    const mCtx = document.getElementById('macroLineChart');
+    if(mCtx && m?.labels?.length){
+      charts.macro = new Chart(mCtx, {
+        type:'line',
+        data:{
+          labels: m.labels,
+          datasets:[
+            { label:'미국 10년 금리', data: m.us10y || [], borderColor: C.blue1, backgroundColor:'rgba(0,51,128,0.08)', borderWidth:2.5, fill:true, tension:0.4, pointRadius:0 },
+            { label:'달러(DXY)', data: m.dxy || [], borderColor: C.blue3, backgroundColor:'rgba(59,130,246,0.06)', borderWidth:2.5, fill:true, tension:0.4, pointRadius:0 },
+            { label:'WTI', data: m.wti || [], borderColor: C.gray1, backgroundColor:'rgba(148,163,184,0.06)', borderWidth:2.5, fill:true, tension:0.4, pointRadius:0 }
+          ]
+        },
+        options: commonChartOptions
+      });
+    }
+
+    // p5
+    const news = document.getElementById('newsTop5');
+    const nList = data.newsTop5 || [];
+    news.innerHTML = nList.length ? nList.slice(0,5).map(newsCard).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+
+    // p6
+    const el = document.getElementById('earningsList');
+    const em = document.getElementById('earningsMovers');
+    const upcoming = data.earnings?.upcoming || [];
+    const movers = data.earnings?.movers || [];
+
+    el.innerHTML = upcoming.length ? upcoming.map(x => {
+      const star = x._star ? '⭐ ' : '';
+      return itemRow(x.when, `${star}${x.symbol} · ${x.name}`, x.note);
+    }).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+
+    em.innerHTML = movers.length ? movers.map(x => {
+      const cls = x.changePct >= 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700';
+      return `
+        <div class="flex items-start justify-between gap-4 p-3 rounded-lg hover:bg-slate-50 transition-all">
+          <div>
+            <p class="font-semibold text-slate-800">${escapeHtml(x.symbol)} · ${escapeHtml(x.name)}</p>
+            <p class="text-xs text-slate-500">${escapeHtml(x.why || '')}</p>
+          </div>
+          <span class="inline-flex items-center px-2 py-1 rounded-md text-sm font-semibold ${cls}">
+            ${fmtPct(x.changePct)}
+          </span>
+        </div>
+      `;
+    }).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+
+    // p7
+    destroyChart('sector');
+    const sectors = data.sectors || [];
+    const sCtx = document.getElementById('sectorBar');
+    if(sCtx && sectors.length){
+      const colors = sectors.length <= 4
+        ? [C.blue1, C.blue2, C.blue3, C.blue4]
+        : [C.blue1, C.blue2, C.blue3, C.blue4, getVar('--chart-gray-1'), getVar('--chart-gray-2'), getVar('--chart-gray-3')];
+
+      charts.sector = new Chart(sCtx, {
+        type:'bar',
+        data:{
+          labels: sectors.map(x => x.name),
+          datasets:[{
+            label:'오늘 변동(%)',
+            data: sectors.map(x => x.changePct),
+            backgroundColor: sectors.map((_,i)=> colors[Math.min(i, colors.length-1)]).map(hex => hexToRgba(hex, 0.75)),
+            borderWidth: 0,
+            borderRadius: 8,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          ...commonChartOptions,
+          scales: { x: { grid: { display: false } }, y: { grid: { color: getVar('--eui-border-light') } } }
+        }
+      });
+    }
+
+    const topEl = document.getElementById('sectorTop');
+    const botEl = document.getElementById('sectorBottom');
+    const sorted = [...sectors].sort((a,b)=>b.changePct-a.changePct);
+    const top3 = sorted.slice(0,3);
+    const bot3 = sorted.slice(-3).reverse();
+    topEl.innerHTML = top3.length ? top3.map(x => `<p>• ${escapeHtml(x.name)} <span class="text-emerald-600 font-semibold">(${fmtPct(x.changePct)})</span></p>`).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+    botEl.innerHTML = bot3.length ? bot3.map(x => `<p>• ${escapeHtml(x.name)} <span class="text-red-600 font-semibold">(${fmtPct(x.changePct)})</span></p>`).join('') : `<p class="text-sm text-slate-500">데이터 없음</p>`;
+
+    // p8
+    const body = document.getElementById('myStocksBody');
+    const stocks = data.myStocks || [];
+    body.innerHTML = stocks.length ? stocks.map(stockRow).join('') : `<tr><td class="px-6 py-4 text-sm text-slate-500" colspan="3">데이터 없음</td></tr>`;
+
+    // p9
+    document.getElementById('riskSpeed').textContent = data.risk?.speed || '-';
+    document.getElementById('riskVol').textContent   = data.risk?.vol || '-';
+    document.getElementById('riskRule').textContent  = data.risk?.rule || '-';
+  }
+
+  function sampleData(){
+    const now = new Date();
+    const kst = new Date(now.getTime() + 9*60*60*1000).toISOString().replace('T',' ').slice(0,16) + ' KST';
+    const labels = Array.from({length: 30}, (_,i)=>`D-${29-i}`);
+    return {
+      updatedAt: kst,
+      oneLine: '샘플: 금리 보합, 달러 약세 → 기술주에 약간 우호(예시)',
+      mood: { value: '애매', reason: '지수는 보합인데 일정/실적 대기라 방향성이 약함' },
+      action: { value: '관망', note: '중요 일정 전이라 무리한 매수 금지', beginnerMemo: '“관망”도 전략. 애매할수록 쉬는 게 이김.' },
+      overnight: { kpis: [], bigFlowReason: '-', series: { labels } },
+      schedule: { econ: [], fed: [] },
+      macro: { kpis: [], series: { labels, us10y: [], dxy: [], wti: [] } },
+      newsTop5: [],
+      earnings: { upcoming: [], movers: [] },
+      sectors: [],
+      myStocks: [],
+      risk: { speed: '-', vol: '-', rule: '-' },
+      todo3: ['-', '-', '-']
+    };
+  }
+
+  // init
+  document.getElementById('panelTitle').textContent = panelTitles['p1'];
+  loadData(false);
+  scheduleAutoRefreshAt9();
+</script>
+</body>
+</html>
