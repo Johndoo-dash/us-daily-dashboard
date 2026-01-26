@@ -2,6 +2,7 @@ import json
 import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 import feedparser
@@ -49,6 +50,169 @@ UA_HEADERS = {
     "User-Agent": "Mozilla/5.0",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
+
+ET = ZoneInfo("America/New_York")
+
+BLS_MAJOR_KEYWORDS = [
+    "Employment Situation",   # 고용보고서
+    "Consumer Price Index",   # CPI
+    "Producer Price Index",   # PPI
+    "Job Openings",           # JOLTS
+    "Employment Cost Index",  # ECI
+    "Import and Export Price Indexes",
+    "Productivity and Costs",
+]
+
+BEA_MAJOR_RELEASES = [
+    "Gross Domestic Product",
+    "Personal Income and Outlays",
+    "U.S. International Trade in Goods and Services",
+]
+
+def _parse_time_hhmm_ampm(t: str):
+    """
+    '08:30 AM' -> (8,30)
+    """
+    t = (t or "").strip()
+    m = re.match(r"^(\d{1,2}):(\d{2})\s*(AM|PM)$", t, re.I)
+    if not m:
+        return None
+    hh = int(m.group(1))
+    mm = int(m.group(2))
+    ap = m.group(3).upper()
+    if ap == "PM" and hh != 12:
+        hh += 12
+    if ap == "AM" and hh == 12:
+        hh = 0
+    return hh, mm
+
+def _fmt_kst_mmdd_hhmm(dt_kst: datetime) -> str:
+    return dt_kst.strftime("%m/%d %H:%M KST")
+
+def fetch_bls_major_events(days: int = 14, limit: int = 8):
+    """
+    BLS 'Schedule of Selected Releases'에서 다음 N일의 주요 지표(CPI/고용/PPI/JOLTS...)만 뽑아옴.
+    시간은 원문이 ET이므로 KST로 변환해 표기.
+    """
+    url = "https://www.bls.gov/schedule/2026/home.htm"
+    r = requests.get(url, headers=UA_HEADERS, timeout=25)
+    r.raise_for_status()
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    # 페이지 내 table들을 훑으며 Date/Time/Release 형태의 row를 수집
+    items = []
+    today_et = datetime.now(ET).date()
+    end_et = today_et + timedelta(days=days)
+
+    for table in soup.find_all("table"):
+        for tr in table.find_all("tr"):
+            tds = [td.get_text(" ", strip=True) for td in tr.find_all(["td","th"])]
+            if len(tds) < 3:
+                continue
+
+            # 보통: [Date, Time, Release] 순
+            date_txt, time_txt, rel_txt = tds[0], tds[1], tds[2]
+            if not date_txt or not rel_txt:
+                continue
+
+            # 예: "Friday, January 9, 2026"
+            dm = re.match(r"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s+([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})$", date_txt)
+            if not dm:
+                continue
+
+            month_name = dm.group(2)
+            day = int(dm.group(3))
+            year = int(dm.group(4))
+            try:
+                month = datetime.strptime(month_name, "%B").month
+            except Exception:
+                continue
+
+            hm = _parse_time_hhmm_ampm(time_txt)
+            if not hm:
+                continue
+            hh, mm = hm
+
+            dt_et = datetime(year, month, day, hh, mm, tzinfo=ET)
+            d_et = dt_et.date()
+            if not (today_et <= d_et <= end_et):
+                continue
+
+            # major filter
+            if not any(k.lower() in rel_txt.lower() for k in BLS_MAJOR_KEYWORDS):
+                continue
+
+            dt_kst = dt_et.astimezone(KST)
+            items.append({
+                "time": _fmt_kst_mmdd_hhmm(dt_kst),
+                "title": rel_txt,
+                "note": "BLS(공식 일정)",
+            })
+
+    # 중복 제거 + 시간순 정렬
+    uniq = {}
+    for it in items:
+        key = (it["time"], it["title"])
+        uniq[key] = it
+    out = sorted(list(uniq.values()), key=lambda x: x["time"])
+    return out[:limit]
+
+def fetch_bea_major_events(days: int = 14, limit: int = 8):
+    """
+    BEA machine-readable schedule(JSON)에서 다음 N일의 주요 이벤트(GDP/Personal Income/Trade)만 뽑아옴.
+    BEA JSON은 UTC offset 포함 ISO 문자열이라 fromisoformat()으로 파싱 가능.
+    """
+    url = "https://apps.bea.gov/API/signup/release_dates.json"
+    r = requests.get(url, headers=UA_HEADERS, timeout=25)
+    r.raise_for_status()
+    raw = r.json()
+
+    now_kst = datetime.now(KST)
+    end_kst = now_kst + timedelta(days=days)
+
+    out = []
+    for key in BEA_MAJOR_RELEASES:
+        block = raw.get(key) or {}
+        dates = block.get("release_dates") or []
+        for ds in dates:
+            try:
+                dt = datetime.fromisoformat(ds)
+            except Exception:
+                continue
+            dt_kst = dt.astimezone(KST)
+            if not (now_kst <= dt_kst <= end_kst):
+                continue
+            out.append({
+                "time": _fmt_kst_mmdd_hhmm(dt_kst),
+                "title": key,
+                "note": "BEA(공식 일정)",
+            })
+
+    # 시간순 정렬 + 중복 제거
+    uniq = {}
+    for it in out:
+        key = (it["time"], it["title"], it["note"])
+        uniq[key] = it
+    out2 = sorted(list(uniq.values()), key=lambda x: x["time"])
+    return out2[:limit]
+
+def fetch_econ_events(limit: int = 8):
+    """
+    econ 이벤트 최종 합치기(BLS + BEA) → 시간순 → limit
+    """
+    items = []
+    try:
+        items += fetch_bls_major_events(days=14, limit=limit)
+    except Exception:
+        pass
+    try:
+        items += fetch_bea_major_events(days=14, limit=limit)
+    except Exception:
+        pass
+
+    # time이 문자열이라도 "MM/DD HH:MM KST" 포맷이므로 정렬 가능(월 경계 넘어가면 약간 오차 가능)
+    items = sorted(items, key=lambda x: x.get("time",""))
+    return items[:limit]
 
 # -----------------------------
 # helpers
@@ -287,6 +451,9 @@ def build_earnings_next_7days(myset):
             rows = []
 
         for r in rows:
+            if not isinstance(r, dict):
+            continue
+            
             # r이 dict가 아니면 스킵 (str 등)
             if not isinstance(r, dict):
                 continue
@@ -468,9 +635,21 @@ def main():
         movers2.append(m)
     movers = movers2[:10]
 
-    # Schedule: Econ (BLS iCal) + Fed(best-effort)
-    econ_events = fetch_bls_schedule(8)
+    # Schedule
     fed_events = fetch_fed_schedule(6)
+
+    # ✅ econ: BLS + BEA 공식 일정에서 가져오기
+    econ_events = fetch_econ_events(limit=8)
+
+    # 혹시 둘 다 실패하면(네트워크/HTML 변경 등) 최소한의 fallback(내 종목 실적) 유지
+    if not econ_events:
+        econ_events = []
+        for u in upcoming[:6]:
+            econ_events.append({
+                "time": u["when"].split()[0],
+                "title": f"Earnings: {u['symbol']}",
+                "note": u.get("name",""),
+            })
 
     # News Top5 (market)
     news = google_news_rss("US stock market futures S&P 500", 12)
