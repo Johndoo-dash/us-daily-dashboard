@@ -1,0 +1,38 @@
+name: Update latest.json daily (09:00 KST)
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # 00:00 UTC = 09:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate latest.json
+        run: |
+          python scripts/generate_latest.py
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data/latest.json
+          git commit -m "chore: update latest.json" || echo "No changes"
+          git push
