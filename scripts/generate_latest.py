@@ -452,7 +452,7 @@ def build_earnings_next_7days(myset):
 
         for r in rows:
             if not isinstance(r, dict):
-            continue
+                continue
             
             # r이 dict가 아니면 스킵 (str 등)
             if not isinstance(r, dict):
