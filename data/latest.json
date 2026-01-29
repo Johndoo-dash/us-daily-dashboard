@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-01-28 13:11 KST",
-  "oneLine": "지수 상승(+0.41%), 10Y -2bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: VRTL(+9.09%) / BOT: AI(-2.55%).",
+  "updatedAt": "2026-01-29 13:54 KST",
+  "oneLine": "지수 하락(-0.01%), 10Y +2bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: VRTL(+4.58%) / BOT: RXRX(-2.83%).",
   "mood": {
     "value": "애매",
     "reason": "방향성 약함(보합/혼조)"
@@ -15,23 +15,23 @@
       {
         "icon": "📈",
         "label": "S&P500",
-        "valueText": "6,978.60",
+        "valueText": "6,978.03",
         "desc": "대표 지수",
-        "changePct": 0.41
+        "changePct": -0.01
       },
       {
         "icon": "📈",
         "label": "나스닥",
-        "valueText": "23,817.10",
+        "valueText": "23,857.45",
         "desc": "기술주 비중",
-        "changePct": 0.91
+        "changePct": 0.17
       },
       {
         "icon": "📈",
         "label": "다우",
-        "valueText": "49,003.41",
+        "valueText": "49,015.60",
         "desc": "대형 가치주",
-        "changePct": -0.83
+        "changePct": 0.02
       },
       {
         "icon": "😱",
@@ -42,6 +42,202 @@
       }
     ],
     "bigFlowReason": "무료 데이터 기반 자동 생성(v2): 지수/변동성/금리/달러/유가 + 내 종목 급등락을 결합",
+    "series": {
+      "labels": [
+        "2025-12-15",
+        "2025-12-16",
+        "2025-12-17",
+        "2025-12-18",
+        "2025-12-19",
+        "2025-12-22",
+        "2025-12-23",
+        "2025-12-24",
+        "2025-12-26",
+        "2025-12-29",
+        "2025-12-30",
+        "2025-12-31",
+        "2026-01-02",
+        "2026-01-05",
+        "2026-01-06",
+        "2026-01-07",
+        "2026-01-08",
+        "2026-01-09",
+        "2026-01-12",
+        "2026-01-13",
+        "2026-01-14",
+        "2026-01-15",
+        "2026-01-16",
+        "2026-01-20",
+        "2026-01-21",
+        "2026-01-22",
+        "2026-01-23",
+        "2026-01-26",
+        "2026-01-27",
+        "2026-01-28"
+      ],
+      "spx": [
+        6816.51,
+        6800.26,
+        6721.43,
+        6774.76,
+        6834.5,
+        6878.49,
+        6909.79,
+        6932.05,
+        6929.94,
+        6905.74,
+        6896.24,
+        6845.5,
+        6858.47,
+        6902.05,
+        6944.82,
+        6920.93,
+        6921.46,
+        6966.28,
+        6977.27,
+        6963.74,
+        6926.6,
+        6944.47,
+        6940.01,
+        6796.86,
+        6875.62,
+        6913.35,
+        6915.61,
+        6950.23,
+        6978.6,
+        6978.03
+      ],
+      "ixic": [
+        23057.41,
+        23111.46,
+        22693.32,
+        23006.36,
+        23307.62,
+        23428.83,
+        23561.84,
+        23613.31,
+        23593.1,
+        23474.35,
+        23419.08,
+        23241.99,
+        23235.63,
+        23395.82,
+        23547.17,
+        23584.28,
+        23480.02,
+        23671.35,
+        23733.9,
+        23709.87,
+        23471.75,
+        23530.02,
+        23515.39,
+        22954.32,
+        23224.82,
+        23436.02,
+        23501.24,
+        23601.36,
+        23817.1,
+        23857.45
+      ],
+      "dji": [
+        48416.56,
+        48114.26,
+        47885.97,
+        47951.85,
+        48134.89,
+        48362.68,
+        48442.41,
+        48731.16,
+        48710.97,
+        48461.93,
+        48367.06,
+        48063.29,
+        48382.39,
+        48977.18,
+        49462.08,
+        48996.08,
+        49266.11,
+        49504.07,
+        49590.2,
+        49191.99,
+        49149.63,
+        49442.44,
+        49359.33,
+        48488.59,
+        49077.23,
+        49384.01,
+        49098.71,
+        49412.4,
+        49003.41,
+        49015.6
+      ]
+    }
+  },
+  "schedule": {
+    "econ": [
+      {
+        "time": "01/29 22:30 KST",
+        "title": "U.S. International Trade in Goods and Services",
+        "note": "BEA(공식 일정)"
+      }
+    ],
+    "fed": [
+      {
+        "time": "-",
+        "title": "FOMC Minutes",
+        "note": "Fed(공식 페이지)"
+      },
+      {
+        "time": "-",
+        "title": "FOMC Meeting",
+        "note": "Fed(공식 페이지)"
+      },
+      {
+        "time": "-",
+        "title": "Press Conference",
+        "note": "Fed(공식 페이지)"
+      },
+      {
+        "time": "-",
+        "title": "FOMC Minutes",
+        "note": "Fed(공식 페이지)"
+      },
+      {
+        "time": "-",
+        "title": "FOMC Meeting",
+        "note": "Fed(공식 페이지)"
+      },
+      {
+        "time": "-",
+        "title": "Press Conference",
+        "note": "Fed(공식 페이지)"
+      }
+    ]
+  },
+  "macro": {
+    "kpis": [
+      {
+        "icon": "🏦",
+        "label": "미국 10년 금리",
+        "valueText": "4.24%",
+        "desc": "FRED(DGS10) · 전일 +2bp",
+        "changePct": 0
+      },
+      {
+        "icon": "💵",
+        "label": "달러값(DXY)",
+        "valueText": "-",
+        "desc": "Stooq(DX.F)",
+        "changePct": 0
+      },
+      {
+        "icon": "🛢️",
+        "label": "유가(WTI)",
+        "valueText": "-",
+        "desc": "Stooq(CL.F)",
+        "changePct": 0
+      }
+    ],
     "series": {
       "labels": [
         "2025-12-12",
@@ -75,204 +271,7 @@
         "2026-01-26",
         "2026-01-27"
       ],
-      "spx": [
-        6827.41,
-        6816.51,
-        6800.26,
-        6721.43,
-        6774.76,
-        6834.5,
-        6878.49,
-        6909.79,
-        6932.05,
-        6929.94,
-        6905.74,
-        6896.24,
-        6845.5,
-        6858.47,
-        6902.05,
-        6944.82,
-        6920.93,
-        6921.46,
-        6966.28,
-        6977.27,
-        6963.74,
-        6926.6,
-        6944.47,
-        6940.01,
-        6796.86,
-        6875.62,
-        6913.35,
-        6915.61,
-        6950.23,
-        6978.6
-      ],
-      "ixic": [
-        23195.17,
-        23057.41,
-        23111.46,
-        22693.32,
-        23006.36,
-        23307.62,
-        23428.83,
-        23561.84,
-        23613.31,
-        23593.1,
-        23474.35,
-        23419.08,
-        23241.99,
-        23235.63,
-        23395.82,
-        23547.17,
-        23584.28,
-        23480.02,
-        23671.35,
-        23733.9,
-        23709.87,
-        23471.75,
-        23530.02,
-        23515.39,
-        22954.32,
-        23224.82,
-        23436.02,
-        23501.24,
-        23601.36,
-        23817.1
-      ],
-      "dji": [
-        48458.05,
-        48416.56,
-        48114.26,
-        47885.97,
-        47951.85,
-        48134.89,
-        48362.68,
-        48442.41,
-        48731.16,
-        48710.97,
-        48461.93,
-        48367.06,
-        48063.29,
-        48382.39,
-        48977.18,
-        49462.08,
-        48996.08,
-        49266.11,
-        49504.07,
-        49590.2,
-        49191.99,
-        49149.63,
-        49442.44,
-        49359.33,
-        48488.59,
-        49077.23,
-        49384.01,
-        49098.71,
-        49412.4,
-        49003.41
-      ]
-    }
-  },
-  "schedule": {
-    "econ": [
-      {
-        "time": "01/29 22:30 KST",
-        "title": "U.S. International Trade in Goods and Services",
-        "note": "BEA(공식 일정)"
-      }
-    ],
-    "fed": [
-      {
-        "time": "-",
-        "title": "FOMC Meeting",
-        "note": "Fed(공식 페이지)"
-      },
-      {
-        "time": "-",
-        "title": "Press Conference",
-        "note": "Fed(공식 페이지)"
-      },
-      {
-        "time": "-",
-        "title": "FOMC Minutes",
-        "note": "Fed(공식 페이지)"
-      },
-      {
-        "time": "-",
-        "title": "FOMC Meeting",
-        "note": "Fed(공식 페이지)"
-      },
-      {
-        "time": "-",
-        "title": "Press Conference",
-        "note": "Fed(공식 페이지)"
-      },
-      {
-        "time": "-",
-        "title": "FOMC Minutes",
-        "note": "Fed(공식 페이지)"
-      }
-    ]
-  },
-  "macro": {
-    "kpis": [
-      {
-        "icon": "🏦",
-        "label": "미국 10년 금리",
-        "valueText": "4.22%",
-        "desc": "FRED(DGS10) · 전일 -2bp",
-        "changePct": 0
-      },
-      {
-        "icon": "💵",
-        "label": "달러값(DXY)",
-        "valueText": "-",
-        "desc": "Stooq(DX.F)",
-        "changePct": 0
-      },
-      {
-        "icon": "🛢️",
-        "label": "유가(WTI)",
-        "valueText": "-",
-        "desc": "Stooq(CL.F)",
-        "changePct": 0
-      }
-    ],
-    "series": {
-      "labels": [
-        "2025-12-11",
-        "2025-12-12",
-        "2025-12-15",
-        "2025-12-16",
-        "2025-12-17",
-        "2025-12-18",
-        "2025-12-19",
-        "2025-12-22",
-        "2025-12-23",
-        "2025-12-24",
-        "2025-12-26",
-        "2025-12-29",
-        "2025-12-30",
-        "2025-12-31",
-        "2026-01-02",
-        "2026-01-05",
-        "2026-01-06",
-        "2026-01-07",
-        "2026-01-08",
-        "2026-01-09",
-        "2026-01-12",
-        "2026-01-13",
-        "2026-01-14",
-        "2026-01-15",
-        "2026-01-16",
-        "2026-01-20",
-        "2026-01-21",
-        "2026-01-22",
-        "2026-01-23",
-        "2026-01-26"
-      ],
       "us10y": [
-        4.14,
         4.19,
         4.18,
         4.15,
@@ -301,7 +300,8 @@
         4.26,
         4.26,
         4.24,
-        4.22
+        4.22,
+        4.24
       ],
       "dxy": [
         null,
@@ -371,33 +371,33 @@
   },
   "newsTop5": [
     {
-      "title": "S&P 500 closes at a record Tuesday as tech giants rally: Live updates - CNBC",
-      "why": "S&amp;P 500 closes at a record Tuesday as tech giants rally: Live updates&nbsp;&nbsp;CNBC",
+      "title": "S&P 500 briefly surpasses 7,000, then closes little changed as Fed keeps rates steady: Live updates - CNBC",
+      "why": "S&amp;P 500 briefly surpasses 7,000, then closes little changed as Fed keeps rates steady: Live updates&nbsp;&nbsp;CNBC",
       "source": "CNBC",
       "star": false
     },
     {
-      "title": "Dollar Slumps Ahead of Fed as Stocks, Gold Rally: Markets Wrap - Bloomberg",
-      "why": "Dollar Slumps Ahead of Fed as Stocks, Gold Rally: Markets Wrap&nbsp;&nbsp;Bloomberg",
+      "title": "Stock market today: S&P 500 slips from record as Fed stands pat, Nasdaq rises before Big Tech earnings flurry - Yahoo Finance",
+      "why": "Stock market today: S&amp;P 500 slips from record as Fed stands pat, Nasdaq rises before Big Tech earnings flurry&nbsp;&nbsp;Yahoo Finance",
+      "source": "Yahoo Finance",
+      "star": false
+    },
+    {
+      "title": "Markets News, Jan. 28, 2026: Stock Indexes Close Little Changed After Fed Holds Interest Rates Steady, Ahead of Big Tech Earnings - Investopedia",
+      "why": "Markets News, Jan. 28, 2026: Stock Indexes Close Little Changed After Fed Holds Interest Rates Steady, Ahead of Big Tech Earnings&nbsp;&nbsp…",
+      "source": "Investopedia",
+      "star": false
+    },
+    {
+      "title": "Gold Extends Record Rally, Dollar Pares Gains: Markets Wrap - Bloomberg",
+      "why": "Gold Extends Record Rally, Dollar Pares Gains: Markets Wrap&nbsp;&nbsp;Bloomberg",
       "source": "Bloomberg",
       "star": false
     },
     {
-      "title": "U.S. stock futures fall, gold hits record ahead of Fed meeting, Big Tech earnings - MarketWatch",
-      "why": "U.S. stock futures fall, gold hits record ahead of Fed meeting, Big Tech earnings&nbsp;&nbsp;MarketWatch",
-      "source": "MarketWatch",
-      "star": false
-    },
-    {
-      "title": "S&P 500 closes higher as Meta and Apple rise ahead of earnings reports: Live updates - CNBC",
-      "why": "S&amp;P 500 closes higher as Meta and Apple rise ahead of earnings reports: Live updates&nbsp;&nbsp;CNBC",
+      "title": "S&P 500 futures are little changed as investors weigh tech giants' earnings: Live updates - CNBC",
+      "why": "S&amp;P 500 futures are little changed as investors weigh tech giants' earnings: Live updates&nbsp;&nbsp;CNBC",
       "source": "CNBC",
-      "star": false
-    },
-    {
-      "title": "Stock Market Today: Dow Futures Slip, Nasdaq Gains Amid Trump's Fresh South Korea Tariffs— General Motors, UnitedHealth, Cloudflare In Focus (UPDATED) - Benzinga",
-      "why": "Stock Market Today: Dow Futures Slip, Nasdaq Gains Amid Trump's Fresh South Korea Tariffs— General Motors, UnitedHealth, Cloudflare In Focus…",
-      "source": "Benzinga",
       "star": false
     }
   ],
@@ -407,37 +407,37 @@
       {
         "symbol": "VRTL",
         "name": "버추얼트…(가칭)",
-        "changePct": 9.09,
-        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
-      },
-      {
-        "symbol": "BMNR",
-        "name": "비트마인드(가칭)",
-        "changePct": 5.5,
-        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
-      },
-      {
-        "symbol": "CEVA",
-        "name": "세바",
-        "changePct": 1.9,
-        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
-      },
-      {
-        "symbol": "TSLA",
-        "name": "테슬라",
-        "changePct": -0.99,
-        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
-      },
-      {
-        "symbol": "CCS",
-        "name": "센추리 커뮤니티즈",
-        "changePct": -2.38,
+        "changePct": 4.58,
         "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
       },
       {
         "symbol": "AI",
         "name": "C3.ai",
-        "changePct": -2.55,
+        "changePct": 4.21,
+        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
+      },
+      {
+        "symbol": "NVDA",
+        "name": "엔비디아",
+        "changePct": 1.59,
+        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
+      },
+      {
+        "symbol": "TSLA",
+        "name": "테슬라",
+        "changePct": 0.13,
+        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
+      },
+      {
+        "symbol": "NE",
+        "name": "노블 코퍼레이션",
+        "changePct": -1.76,
+        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
+      },
+      {
+        "symbol": "RXRX",
+        "name": "리커전 파마",
+        "changePct": -2.83,
         "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
       }
     ]
@@ -445,47 +445,47 @@
   "sectors": [
     {
       "name": "기술",
-      "changePct": 1.35
+      "changePct": 0.8
     },
     {
       "name": "금융",
-      "changePct": -0.77
+      "changePct": -0.02
     },
     {
       "name": "경기소비재",
-      "changePct": 0.3
+      "changePct": -0.75
     },
     {
       "name": "필수소비재",
-      "changePct": 0.46
+      "changePct": -1.01
     },
     {
       "name": "에너지",
-      "changePct": 0.91
+      "changePct": 0.77
     },
     {
       "name": "헬스케어",
-      "changePct": -1.68
+      "changePct": -0.73
     },
     {
       "name": "산업재",
-      "changePct": 0.41
+      "changePct": -0.56
     },
     {
       "name": "소재",
-      "changePct": -0.1
+      "changePct": -0.06
     },
     {
       "name": "유틸리티",
-      "changePct": 1.31
+      "changePct": -0.23
     },
     {
       "name": "부동산",
-      "changePct": 0.07
+      "changePct": -0.97
     },
     {
       "name": "커뮤니케이션",
-      "changePct": -0.74
+      "changePct": -0.13
     }
   ],
   "myStocks": [
@@ -493,10 +493,10 @@
       "symbol": "NE",
       "name": "노블 코퍼레이션",
       "koName": "노블 코퍼레이션",
-      "last": "35.24",
-      "changePct": 0.11,
-      "priceText": "$35.24 (↑0.11%)",
-      "news": "Top performing energy stocks in the past month (NE:NYSE) - Seeking Alpha",
+      "last": "34.62",
+      "changePct": -1.76,
+      "priceText": "$34.62 (↓1.76%)",
+      "news": "SIZE.NE volume spike to C$0.035 Jan 28 2026 Major Precious Metals (NEO): Liquidity - Meyka",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -504,10 +504,10 @@
       "symbol": "RXRX",
       "name": "리커전 파마",
       "koName": "리커전 파마",
-      "last": "4.60",
-      "changePct": 0.22,
-      "priceText": "$4.60 (↑0.22%)",
-      "news": "Recursion Pharmaceuticals (RXRX) Stock Declines While Market Improves: Some Information for Investors - Yahoo Finance",
+      "last": "4.47",
+      "changePct": -2.83,
+      "priceText": "$4.47 (↓2.83%)",
+      "news": "Recursion Pharmaceuticals (RXRX) Stock Drops Despite Market Gains: Important Facts to Note - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -515,9 +515,9 @@
       "symbol": "BLDP",
       "name": "발라드 파워",
       "koName": "발라드 파워",
-      "last": "2.57",
+      "last": "2.58",
       "changePct": 0.39,
-      "priceText": "$2.57 (↑0.39%)",
+      "priceText": "$2.58 (↑0.39%)",
       "news": "Ballard Power Systems (TSE:BLDP) Shares Down 3% - Time to Sell? - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
@@ -526,10 +526,10 @@
       "symbol": "BMNR",
       "name": "비트마인드(가칭)",
       "koName": "비트마인드(가칭)",
-      "last": "29.33",
-      "changePct": 5.5,
-      "priceText": "$29.33 (↑5.50%)",
-      "news": "Is It Too Late To Reassess Bitmine Immersion Technologies (BMNR) After A 348.5% One Year Run? - Yahoo Finance",
+      "last": "29.63",
+      "changePct": 1.02,
+      "priceText": "$29.63 (↑1.02%)",
+      "news": "BitMine Immersion: Focus On Staking Yield, Not Mr. Beast (NYSE:BMNR) - Seeking Alpha",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -537,9 +537,9 @@
       "symbol": "NVDA",
       "name": "엔비디아",
       "koName": "엔비디아",
-      "last": "188.52",
-      "changePct": 1.1,
-      "priceText": "$188.52 (↑1.10%)",
+      "last": "191.52",
+      "changePct": 1.59,
+      "priceText": "$191.52 (↑1.59%)",
       "news": "Why Nvidia stock is on sale - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
@@ -548,10 +548,10 @@
       "symbol": "TSLA",
       "name": "테슬라",
       "koName": "테슬라",
-      "last": "430.90",
-      "changePct": -0.99,
-      "priceText": "$430.90 (↓0.99%)",
-      "news": "Here's How Much Traders Expect Tesla Stock to Move After Earnings This Week - Investopedia",
+      "last": "431.46",
+      "changePct": 0.13,
+      "priceText": "$431.46 (↑0.13%)",
+      "news": "Tesla tops estimates for quarter, but wraps up first annual revenue drop on record - CNBC",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -559,10 +559,10 @@
       "symbol": "AI",
       "name": "C3.ai",
       "koName": "C3.ai",
-      "last": "12.60",
-      "changePct": -2.55,
-      "priceText": "$12.60 (↓2.55%)",
-      "news": "As Nvidia Sets Up, This AI Stock Tickles New Buy Zone While Top Funds Gobble Up Shares - Investor's Business Daily",
+      "last": "13.13",
+      "changePct": 4.21,
+      "priceText": "$13.13 (↑4.21%)",
+      "news": "Why C3.ai (AI) Stock Is Soaring Today? - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -570,9 +570,9 @@
       "symbol": "GGLL",
       "name": "그래닛셰어즈 2x 롱 NVDA(ETF)",
       "koName": "그래닛셰어즈 2x 롱 NVDA(ETF)",
-      "last": "109.71",
-      "changePct": 0.85,
-      "priceText": "$109.71 (↑0.85%)",
+      "last": "110.62",
+      "changePct": 0.83,
+      "priceText": "$110.62 (↑0.83%)",
       "news": "There’s a New Prince of U.S. Stocks. Play its Ascent With GGLL - ETF Trends",
       "nextEvent": "없음",
       "memo": ""
@@ -581,10 +581,10 @@
       "symbol": "QQQM",
       "name": "인베스코 나스닥100 미니(ETF)",
       "koName": "인베스코 나스닥100 미니(ETF)",
-      "last": "259.85",
-      "changePct": 0.9,
-      "priceText": "$259.85 (↑0.90%)",
-      "news": "QQQM Vs. SPY: The Better ETF For Compounding Wealth (NYSEARCA:SPY) - Seeking Alpha",
+      "last": "260.76",
+      "changePct": 0.35,
+      "priceText": "$260.76 (↑0.35%)",
+      "news": "Fund Update: 3,005,140 $QQQM shares added to Migdal Insurance & Financial Holdings Ltd. portfolio - Quiver Quantitative",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -592,9 +592,9 @@
       "symbol": "VRTL",
       "name": "버추얼트…(가칭)",
       "koName": "버추얼트…(가칭)",
-      "last": "65.79",
-      "changePct": 9.09,
-      "priceText": "$65.79 (↑9.09%)",
+      "last": "68.81",
+      "changePct": 4.58,
+      "priceText": "$68.81 (↑4.58%)",
       "news": "U.S. ETF Tracker | Oklo, a U.S. nuclear power company, and Vertiv Holdings have announced a partnership, with the 2x leveraged VRTL ETF rising nearly 10%; the 2x leveraged INTC ETF fell more than 17%. - 富途牛牛",
       "nextEvent": "없음",
       "memo": ""
@@ -603,10 +603,10 @@
       "symbol": "CEVA",
       "name": "세바",
       "koName": "세바",
-      "last": "22.47",
-      "changePct": 1.9,
-      "priceText": "$22.47 (↑1.90%)",
-      "news": "Why AI Stock Ceva Was Sliding Hard This Week - The Motley Fool",
+      "last": "22.51",
+      "changePct": 0.18,
+      "priceText": "$22.51 (↑0.18%)",
+      "news": "Ceva, Inc. (NASDAQ:CEVA) Receives Consensus Rating of \"Moderate Buy\" from Brokerages - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -614,16 +614,16 @@
       "symbol": "CCS",
       "name": "센추리 커뮤니티즈",
       "koName": "센추리 커뮤니티즈",
-      "last": "63.45",
-      "changePct": -2.38,
-      "priceText": "$63.45 (↓2.38%)",
-      "news": "Exxon begins commercial CCS project with CF industries in Louisiana - Reuters",
+      "last": "63.99",
+      "changePct": 0.85,
+      "priceText": "$63.99 (↑0.85%)",
+      "news": "Century Communities (CCS) Q4 Earnings and Revenues Surpass Estimates - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     }
   ],
   "risk": {
-    "speed": "내 종목 최대 절대등락: 9.09%",
+    "speed": "내 종목 최대 절대등락: 4.58%",
     "vol": "VIX: -",
     "rule": "오늘 액션: 관망 (무리 금지)"
   },
