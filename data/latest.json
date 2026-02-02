@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-01 14:17 KST",
+  "updatedAt": "2026-02-02 14:17 KST",
   "oneLine": "지수 하락(-0.43%), 10Y -2bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: TSLA(+3.32%) / BOT: AI(-10.20%).",
   "mood": {
     "value": "애매",
@@ -365,33 +365,33 @@
   },
   "newsTop5": [
     {
-      "title": "S&P 500 falls for third straight day as speculative silver trade unwinds, but ends month positive - CNBC",
-      "why": "S&amp;P 500 falls for third straight day as speculative silver trade unwinds, but ends month positive&nbsp;&nbsp;CNBC",
+      "title": "Stock futures fall after silver, bitcoin sell off; questions loom over AI trade: Live updates - CNBC",
+      "why": "Stock futures fall after silver, bitcoin sell off; questions loom over AI trade: Live updates&nbsp;&nbsp;CNBC",
       "source": "CNBC",
+      "star": false
+    },
+    {
+      "title": "U.S. stock futures fall after bitcoin’s weekend drop, as gold and silver’s sell-off may be bleeding into other markets - MarketWatch",
+      "why": "U.S. stock futures fall after bitcoin’s weekend drop, as gold and silver’s sell-off may be bleeding into other markets&nbsp;&nbsp;MarketWatc…",
+      "source": "MarketWatch",
+      "star": false
+    },
+    {
+      "title": "Dollar Firms, Stocks Look Weaker as Sentiment Ebbs: Markets Wrap - Bloomberg.com",
+      "why": "Dollar Firms, Stocks Look Weaker as Sentiment Ebbs: Markets Wrap&nbsp;&nbsp;Bloomberg.com",
+      "source": "Bloomberg.com",
+      "star": false
+    },
+    {
+      "title": "E-mini S&P 500 Futures Overview - CME Group",
+      "why": "E-mini S&amp;P 500 Futures Overview&nbsp;&nbsp;CME Group",
+      "source": "CME Group",
       "star": false
     },
     {
       "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
       "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
-      "star": false
-    },
-    {
-      "title": "Markets News, Jan. 29, 2026: S&P 500, Nasdaq End Lower as Microsoft Shares Drop 10%, Software Stocks Slide - Investopedia",
-      "why": "Markets News, Jan. 29, 2026: S&amp;P 500, Nasdaq End Lower as Microsoft Shares Drop 10%, Software Stocks Slide&nbsp;&nbsp;Investopedia",
-      "source": "Investopedia",
-      "star": false
-    },
-    {
-      "title": "Stocks Slip as Gold, Silver Hit New Records - The Wall Street Journal",
-      "why": "Stocks Slip as Gold, Silver Hit New Records&nbsp;&nbsp;The Wall Street Journal",
-      "source": "The Wall Street Journal",
-      "star": false
-    },
-    {
-      "title": "S&P 500 closes lower as Microsoft tanks, software shares slide: Live updates - CNBC",
-      "why": "S&amp;P 500 closes lower as Microsoft tanks, software shares slide: Live updates&nbsp;&nbsp;CNBC",
-      "source": "CNBC",
       "star": false
     }
   ],
@@ -490,7 +490,7 @@
       "last": "35.62",
       "changePct": -1.08,
       "priceText": "$35.62 (↓1.08%)",
-      "news": "Top performing energy stocks in the past month (NE:NYSE) - Seeking Alpha",
+      "news": "Assessing Noble (NE) Valuation After US$1.3b Global Contract Backlog Expansion - simplywall.st",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -523,7 +523,7 @@
       "last": "25.10",
       "changePct": -5.99,
       "priceText": "$25.10 (↓5.99%)",
-      "news": "Why Is Bitmine Immersion Stock Falling Friday? - Benzinga",
+      "news": "MSTR, BMNR Dominate Retail Chatter After Bitcoin’s Weekend Selloff, While GME Stock Rallies - Stocktwits",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -534,7 +534,7 @@
       "last": "191.13",
       "changePct": -0.72,
       "priceText": "$191.13 (↓0.72%)",
-      "news": "Nvidia Stock Price Target: Where Will It Be in 5 Years? - The Motley Fool",
+      "news": "Morgan Stanley sets bold new price target on Nvidia stock - thestreet.com",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -545,7 +545,7 @@
       "last": "430.41",
       "changePct": 3.32,
       "priceText": "$430.41 (↑3.32%)",
-      "news": "“Forget the Tesla You Knew,” Tesla Stock (NASDAQ:TSLA) Blasts Up on Huge Capex Plan - TipRanks",
+      "news": "Tesla (TSLA) Valuation Check After Mixed Short And Long Term Share Price Moves - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -556,7 +556,7 @@
       "last": "11.01",
       "changePct": -10.2,
       "priceText": "$11.01 (↓10.20%)",
-      "news": "This Artificial Intelligence (AI) Stock Could Turn $1,000 Into $87,000 -- and Much More - The Motley Fool",
+      "news": "3 AI Stocks to Buy in 2026 and Hold Forever - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -567,7 +567,7 @@
       "last": "112.20",
       "changePct": 0.38,
       "priceText": "$112.20 (↑0.38%)",
-      "news": "Is This ETF Targeting Alphabet Stock a Buy After Oriental Harbor Added Shares to Its Position Worth $15.1 Million? - The Motley Fool",
+      "news": "Alphabet Earnings Beckon for These ETFs - ETF Trends",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -578,7 +578,7 @@
       "last": "256.05",
       "changePct": -1.19,
       "priceText": "$256.05 (↓1.19%)",
-      "news": "QQQM Makes It Easy to Ditch Market Timing - ETF Database",
+      "news": "The Best Tech ETF to Invest $2,000 in Right Now - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -600,7 +600,7 @@
       "last": "21.09",
       "changePct": -4.87,
       "priceText": "$21.09 (↓4.87%)",
-      "news": "CEVA, Inc. (NASDAQ:CEVA): Is Breakeven Near? - simplywall.st",
+      "news": "CEVA (NASDAQ:CEVA shareholders incur further losses as stock declines 9.2% this week, taking five-year losses to 65% - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -611,7 +611,7 @@
       "last": "62.98",
       "changePct": -1.55,
       "priceText": "$62.98 (↓1.55%)",
-      "news": "18,339 Shares in Century Communities, Inc. $CCS Bought by Summit Global Investments - MarketBeat",
+      "news": "The Technical Signals Behind (CCS) That Institutions Follow - Stock Traders Daily",
       "nextEvent": "없음",
       "memo": ""
     }
