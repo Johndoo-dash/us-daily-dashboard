@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-07 13:53 KST",
+  "updatedAt": "2026-02-08 14:18 KST",
   "oneLine": "지수 상승(+1.97%), 10Y -8bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: VRTL(+19.44%) / BOT: GGLL(-5.04%).",
   "mood": {
     "value": "좋음",
@@ -393,21 +393,21 @@
       "star": false
     },
     {
+      "title": "Markets News, Feb. 6, 2026: Dow Ends Above 50K for First Time as Indexes Soar After 3-Day Sell-Off; Bitcoin Bounces Back Above $70K - Investopedia",
+      "why": "Markets News, Feb. 6, 2026: Dow Ends Above 50K for First Time as Indexes Soar After 3-Day Sell-Off; Bitcoin Bounces Back Above $70K&nbsp;&nb…",
+      "source": "Investopedia",
+      "star": false
+    },
+    {
       "title": "Stock Market News, Feb 6, 2026: Dow Closes Above 50000 as Stocks Rebound From Tech Selloff - The Wall Street Journal",
       "why": "Stock Market News, Feb 6, 2026: Dow Closes Above 50000 as Stocks Rebound From Tech Selloff&nbsp;&nbsp;The Wall Street Journal",
       "source": "The Wall Street Journal",
       "star": false
     },
     {
-      "title": "Markets News, Feb. 5, 2026: Stocks End Sharply Lower for 3rd Straight Day as Risk-Off Sentiment Grips Markets; Dow Sheds 600 Points, Bitcoin Plunges - Investopedia",
-      "why": "Markets News, Feb. 5, 2026: Stocks End Sharply Lower for 3rd Straight Day as Risk-Off Sentiment Grips Markets; Dow Sheds 600 Points, Bitcoin…",
-      "source": "Investopedia",
-      "star": false
-    },
-    {
-      "title": "E-mini Dow Jones Industrial Average Index Futures Overview - CME Group",
-      "why": "E-mini Dow Jones Industrial Average Index Futures Overview&nbsp;&nbsp;CME Group",
-      "source": "CME Group",
+      "title": "Dow tumbles nearly 600 points, S&P 500 goes negative for 2026 in tech sector rout: Live updates - CNBC",
+      "why": "Dow tumbles nearly 600 points, S&amp;P 500 goes negative for 2026 in tech sector rout: Live updates&nbsp;&nbsp;CNBC",
+      "source": "CNBC",
       "star": false
     }
   ],
@@ -506,7 +506,7 @@
       "last": "39.20",
       "changePct": 5.89,
       "priceText": "$39.20 (↑5.89%)",
-      "news": "Is Noble (NE) Pricing Reflect Its DCF Upside After Recent Share Price Strength - simplywall.st",
+      "news": "Earnings Preview: Noble Corporation PLC (NE) Q4 Earnings Expected to Decline - Nasdaq",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -517,7 +517,7 @@
       "last": "3.98",
       "changePct": 11.8,
       "priceText": "$3.98 (↑11.80%)",
-      "news": "Borgeson Blake sells Recursion Pharmaceuticals (RXRX) shares for $924k - Investing.com",
+      "news": "Is Recursion Pharmaceuticals Inc. (RXRX) The Best Overlooked Penny Stock to Invest In? - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -539,7 +539,7 @@
       "last": "20.47",
       "changePct": 17.64,
       "priceText": "$20.47 (↑17.64%)",
-      "news": "Bitmine Immersion: Extreme Fear, Asymmetric Setup (NYSE:BMNR) - Seeking Alpha",
+      "news": "Ethereum (ETH) news: BitMine (BMNR) faces $8 billion paper loss on ether holdings - CoinDesk",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -550,7 +550,7 @@
       "last": "185.41",
       "changePct": 7.87,
       "priceText": "$185.41 (↑7.87%)",
-      "news": "Chip Stocks Soar as Nvidia CEO Huang Says Demand Is 'Through the Roof' - Investopedia",
+      "news": "The Last Time Nvidia Stock Was This Cheap, It Nearly Doubled in 6 Months. Can It Repeat? - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -572,7 +572,7 @@
       "last": "11.65",
       "changePct": 14.78,
       "priceText": "$11.65 (↑14.78%)",
-      "news": "Why a new AI tool hammered some software stocks this week - ABC News",
+      "news": "Dan Ives Predicts This AI Stock That's Climbed 1,700% in 3 Years May Be Set for a 46% Gain - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -583,7 +583,7 @@
       "last": "101.75",
       "changePct": -5.04,
       "priceText": "$101.75 (↓5.04%)",
-      "news": "Direxion Daily GOOGL Bull 2X Shares (NASDAQ:GGLL) Stock Price Down 5.2% - What's Next? - MarketBeat",
+      "news": "Direxion Daily GOOGL Bull 2X Shares (NASDAQ:GGLL) Shares Gap Down - Time to Sell? - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -616,7 +616,7 @@
       "last": "22.54",
       "changePct": 7.64,
       "priceText": "$22.54 (↑7.64%)",
-      "news": "CEVA (NASDAQ:CEVA shareholders incur further losses as stock declines 9.2% this week, taking five-year losses to 65% - Yahoo Finance",
+      "news": "CEVA ANNOUNCES COMMENCEMENT OF UNDERWRITTEN PUBLIC OFFERING OF COMMON STOCK - PR Newswire",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -627,7 +627,7 @@
       "last": "69.79",
       "changePct": 0.3,
       "priceText": "$69.79 (↑0.30%)",
-      "news": "Century Communities (CCS) Is Up 8.8% After 2025 Results, Higher Dividend And Ongoing Buybacks – What's Changed - simplywall.st",
+      "news": "Century Communities (CCS) Soars 10.9%: Is Further Upside Left in the Stock? - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     }
