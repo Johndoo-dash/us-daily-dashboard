@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-14 13:59 KST",
+  "updatedAt": "2026-02-15 14:12 KST",
   "oneLine": "지수 상승(+0.05%), 10Y -9bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: NE(+7.61%) / BOT: RXRX(-2.51%).",
   "mood": {
     "value": "애매",
@@ -381,15 +381,15 @@
   },
   "newsTop5": [
     {
-      "title": "S&P 500 closes little changed after soft inflation report, index notches losing week: Live updates - CNBC",
-      "why": "S&amp;P 500 closes little changed after soft inflation report, index notches losing week: Live updates&nbsp;&nbsp;CNBC",
-      "source": "CNBC",
-      "star": false
-    },
-    {
       "title": "Stock market today: Dow, S&P 500, Nasdaq futures rise after jobs surprise puts focus back on Fed's rate path - Yahoo Finance",
       "why": "Stock market today: Dow, S&amp;P 500, Nasdaq futures rise after jobs surprise puts focus back on Fed's rate path&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
+      "star": false
+    },
+    {
+      "title": "S&P 500 closes little changed after soft inflation report, index notches losing week: Live updates - CNBC",
+      "why": "S&amp;P 500 closes little changed after soft inflation report, index notches losing week: Live updates&nbsp;&nbsp;CNBC",
+      "source": "CNBC",
       "star": false
     },
     {
@@ -517,7 +517,7 @@
       "last": "3.49",
       "changePct": -2.51,
       "priceText": "$3.49 (↓2.51%)",
-      "news": "Will Nvidia-Backed BioHive-2 and Big Pharma Alliances Redefine Recursion Pharmaceuticals' (RXRX) Narrative - Yahoo Finance",
+      "news": "Recursion Pharmaceuticals (RXRX) Falls More Steeply Than Broader Market: What Investors Need to Know - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -550,7 +550,7 @@
       "last": "182.81",
       "changePct": -2.21,
       "priceText": "$182.81 (↓2.21%)",
-      "news": "A $100 Billion Reason to Buy Nvidia Stock Now - Yahoo Finance",
+      "news": "Should You Buy Nvidia Stock Before February 25? UBS Analysts Say ‘Yes.’ - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -561,7 +561,7 @@
       "last": "417.44",
       "changePct": 0.09,
       "priceText": "$417.44 (↑0.09%)",
-      "news": "“Now-Constant Stream of Experienced Talent Leaving Tesla”: Tesla Stock (NASDAQ:TSLA) Gains Despite Fresh Departure - TipRanks",
+      "news": "Is Tesla Stock Headed To $300? - Forbes",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -627,7 +627,7 @@
       "last": "74.84",
       "changePct": 3.51,
       "priceText": "$74.84 (↑3.51%)",
-      "news": "Century Communities Insider Makes Major Multi-Million Dollar Move - TipRanks",
+      "news": "Century Communities (NYSE:CCS) Chairman Dale Francescon Sells 100,100 Shares of Stock - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     }
