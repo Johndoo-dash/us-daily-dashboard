@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-16 14:24 KST",
+  "updatedAt": "2026-02-16 14:45 KST",
   "oneLine": "지수 상승(+0.05%), 10Y -9bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: NE(+7.61%) / BOT: RXRX(-2.51%).",
   "mood": {
     "value": "애매",
@@ -517,7 +517,7 @@
       "last": "3.49",
       "changePct": -2.51,
       "priceText": "$3.49 (↓2.51%)",
-      "news": "Recursion Pharmaceuticals (RXRX) Falls More Steeply Than Broader Market: What Investors Need to Know - Yahoo Finance",
+      "news": "JPMorgan Upgrades Recursion Pharmaceuticals, Inc. (RXRX) on FAP Treatment Prospects - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -539,7 +539,7 @@
       "last": "20.96",
       "changePct": 6.18,
       "priceText": "$20.96 (↑6.18%)",
-      "news": "BlackRock buys up Bitmine shares as Ethereum threatens to fall to $1,400 price - Yahoo Finance",
+      "news": "B.Riley Maintains Buy Rating on Bitmine (BMNR) After Strategic MrBeast Partnership - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
