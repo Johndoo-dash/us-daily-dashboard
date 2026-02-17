@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-16 14:45 KST",
+  "updatedAt": "2026-02-17 14:13 KST",
   "oneLine": "지수 상승(+0.05%), 10Y -9bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: NE(+7.61%) / BOT: RXRX(-2.51%).",
   "mood": {
     "value": "애매",
@@ -381,6 +381,24 @@
   },
   "newsTop5": [
     {
+      "title": "U.S. stock futures slump as investors digest ongoing tech selloff - MarketWatch",
+      "why": "U.S. stock futures slump as investors digest ongoing tech selloff&nbsp;&nbsp;MarketWatch",
+      "source": "MarketWatch",
+      "star": false
+    },
+    {
+      "title": "The New York Stock Exchange | NYSE - NYSE",
+      "why": "The New York Stock Exchange | NYSE&nbsp;&nbsp;NYSE",
+      "source": "NYSE",
+      "star": false
+    },
+    {
+      "title": "U.S. Stock Futures Flat after Another Soft Week Driven by AI Concerns - TipRanks",
+      "why": "U.S. Stock Futures Flat after Another Soft Week Driven by AI Concerns&nbsp;&nbsp;TipRanks",
+      "source": "TipRanks",
+      "star": false
+    },
+    {
       "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
       "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
@@ -390,24 +408,6 @@
       "title": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher - Fortune",
       "why": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher&nbsp;&nbsp;Fortune",
       "source": "Fortune",
-      "star": false
-    },
-    {
-      "title": "TSX futures tick up after US data signals economic resilience - Reuters",
-      "why": "TSX futures tick up after US data signals economic resilience&nbsp;&nbsp;Reuters",
-      "source": "Reuters",
-      "star": false
-    },
-    {
-      "title": "US Stock Market Today: S&P 500 Futures Slide as Fed Signals Limited Further Cuts - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Slide as Fed Signals Limited Further Cuts&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
-      "star": false
-    },
-    {
-      "title": "US Stock Market Today S&P 500 Futures Climb As Traders Await Key PCE Data - Yahoo Finance",
-      "why": "US Stock Market Today S&amp;P 500 Futures Climb As Traders Await Key PCE Data&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
       "star": false
     }
   ],
@@ -506,7 +506,7 @@
       "last": "45.82",
       "changePct": 7.61,
       "priceText": "$45.82 (↑7.61%)",
-      "news": "Is Noble (NE) Still Reasonably Priced After Its Recent 69% One Year Surge - Yahoo Finance",
+      "news": "Here is Why Noble Corporation (NE) Jumped This Week - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -517,7 +517,7 @@
       "last": "3.49",
       "changePct": -2.51,
       "priceText": "$3.49 (↓2.51%)",
-      "news": "JPMorgan Upgrades Recursion Pharmaceuticals, Inc. (RXRX) on FAP Treatment Prospects - Yahoo Finance",
+      "news": "Recursion Pharmaceuticals (RXRX) Falls More Steeply Than Broader Market: What Investors Need to Know - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -528,7 +528,7 @@
       "last": "2.15",
       "changePct": 3.86,
       "priceText": "$2.15 (↑3.86%)",
-      "news": "(BLDP) Daily Stock Insights (BLDP:CA) - Stock Traders Daily",
+      "news": "Long Term Trading Analysis for (BLDP) (BLDP:CA) - Stock Traders Daily",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -539,7 +539,7 @@
       "last": "20.96",
       "changePct": 6.18,
       "priceText": "$20.96 (↑6.18%)",
-      "news": "B.Riley Maintains Buy Rating on Bitmine (BMNR) After Strategic MrBeast Partnership - Yahoo Finance",
+      "news": "Tom Lee’s BitMine (BMNR) Stock Faces Cost-Basis Risk — Price Breakdown at 10%? - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -550,7 +550,7 @@
       "last": "182.81",
       "changePct": -2.21,
       "priceText": "$182.81 (↓2.21%)",
-      "news": "Nvidia Shares Go Cold Even as Big Tech Spending on AI Balloons - Yahoo Finance",
+      "news": "Ray Dalio’s Bridgewater invests $253 million in major AI stock - thestreet.com",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -561,7 +561,7 @@
       "last": "417.44",
       "changePct": 0.09,
       "priceText": "$417.44 (↑0.09%)",
-      "news": "Commit To Buy Tesla At $80, Earn 4.1% Using Options - Nasdaq",
+      "news": "Tesla enters the autonomy-as-a-service era (TSLA:NASDAQ) - Seeking Alpha",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -583,7 +583,7 @@
       "last": "90.84",
       "changePct": -2.23,
       "priceText": "$90.84 (↓2.23%)",
-      "news": "GGLL: Leveraged Strategy To Strategically Trade GOOGL's Growth Momentum (NASDAQ:GGLL) - Seeking Alpha",
+      "news": "(GGLL) Movement Within Algorithmic Entry Frameworks - Stock Traders Daily",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -594,7 +594,7 @@
       "last": "247.83",
       "changePct": 0.21,
       "priceText": "$247.83 (↑0.21%)",
-      "news": "How (QQQM) Movements Inform Risk Allocation Models - Stock Traders Daily",
+      "news": "Believe It: Chip Stocks Aren’t as Expensive as Investors Think - ETF Trends",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -616,7 +616,7 @@
       "last": "22.67",
       "changePct": 0.53,
       "priceText": "$22.67 (↑0.53%)",
-      "news": "Herald Investment Management Ltd Raises Stock Position in Ceva, Inc. $CEVA - MarketBeat",
+      "news": "An Overview of CEVA's Earnings - Benzinga",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -627,7 +627,7 @@
       "last": "74.84",
       "changePct": 3.51,
       "priceText": "$74.84 (↑3.51%)",
-      "news": "Century Communities (NYSE:CCS) Chairman Dale Francescon Sells 100,100 Shares of Stock - MarketBeat",
+      "news": "Century Communities, Inc. (NYSE:CCS) Sees Significant Decline in Short Interest - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     }
