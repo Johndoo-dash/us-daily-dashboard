@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-02-17 14:13 KST",
-  "oneLine": "지수 상승(+0.05%), 10Y -9bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: NE(+7.61%) / BOT: RXRX(-2.51%).",
+  "updatedAt": "2026-02-18 14:15 KST",
+  "oneLine": "지수 상승(+0.10%), 10Y -5bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: VRTL(+7.33%) / BOT: CEVA(-9.79%).",
   "mood": {
     "value": "애매",
     "reason": "방향성 약함(보합/혼조)"
@@ -15,23 +15,23 @@
       {
         "icon": "📈",
         "label": "S&P500",
-        "valueText": "6,836.17",
+        "valueText": "6,843.22",
         "desc": "대표 지수",
-        "changePct": 0.05
+        "changePct": 0.1
       },
       {
         "icon": "📈",
         "label": "나스닥",
-        "valueText": "22,546.67",
+        "valueText": "22,578.38",
         "desc": "기술주 비중",
-        "changePct": -0.22
+        "changePct": 0.14
       },
       {
         "icon": "📈",
         "label": "다우",
-        "valueText": "49,500.93",
+        "valueText": "49,533.19",
         "desc": "대형 가치주",
-        "changePct": 0.1
+        "changePct": 0.07
       },
       {
         "icon": "😱",
@@ -44,7 +44,6 @@
     "bigFlowReason": "무료 데이터 기반 자동 생성(v2): 지수/변동성/금리/달러/유가 + 내 종목 급등락을 결합",
     "series": {
       "labels": [
-        "2026-01-02",
         "2026-01-05",
         "2026-01-06",
         "2026-01-07",
@@ -73,10 +72,10 @@
         "2026-02-10",
         "2026-02-11",
         "2026-02-12",
-        "2026-02-13"
+        "2026-02-13",
+        "2026-02-17"
       ],
       "spx": [
-        6858.47,
         6902.05,
         6944.82,
         6920.93,
@@ -105,10 +104,10 @@
         6941.81,
         6941.47,
         6832.76,
-        6836.17
+        6836.17,
+        6843.22
       ],
       "ixic": [
-        23235.63,
         23395.82,
         23547.17,
         23584.28,
@@ -137,10 +136,10 @@
         23102.47,
         23066.47,
         22597.15,
-        22546.67
+        22546.67,
+        22578.38
       ],
       "dji": [
-        48382.39,
         48977.18,
         49462.08,
         48996.08,
@@ -169,7 +168,8 @@
         50188.14,
         50121.4,
         49451.98,
-        49500.93
+        49500.93,
+        49533.19
       ]
     }
   },
@@ -229,8 +229,8 @@
       {
         "icon": "🏦",
         "label": "미국 10년 금리",
-        "valueText": "4.09%",
-        "desc": "FRED(DGS10) · 전일 -9bp",
+        "valueText": "4.04%",
+        "desc": "FRED(DGS10) · 전일 -5bp",
         "changePct": 0
       },
       {
@@ -250,7 +250,6 @@
     ],
     "series": {
       "labels": [
-        "2025-12-31",
         "2026-01-02",
         "2026-01-05",
         "2026-01-06",
@@ -279,10 +278,10 @@
         "2026-02-09",
         "2026-02-10",
         "2026-02-11",
-        "2026-02-12"
+        "2026-02-12",
+        "2026-02-13"
       ],
       "us10y": [
-        4.18,
         4.19,
         4.17,
         4.18,
@@ -311,7 +310,8 @@
         4.22,
         4.16,
         4.18,
-        4.09
+        4.09,
+        4.04
       ],
       "dxy": [
         null,
@@ -381,21 +381,21 @@
   },
   "newsTop5": [
     {
+      "title": "S&P 500 closes little changed Tuesday as declines in software shares weigh on index: Live updates - CNBC",
+      "why": "S&amp;P 500 closes little changed Tuesday as declines in software shares weigh on index: Live updates&nbsp;&nbsp;CNBC",
+      "source": "CNBC",
+      "star": false
+    },
+    {
+      "title": "Asia Set for Positive Open After Choppy US Session: Markets Wrap - Bloomberg.com",
+      "why": "Asia Set for Positive Open After Choppy US Session: Markets Wrap&nbsp;&nbsp;Bloomberg.com",
+      "source": "Bloomberg.com",
+      "star": false
+    },
+    {
       "title": "U.S. stock futures slump as investors digest ongoing tech selloff - MarketWatch",
       "why": "U.S. stock futures slump as investors digest ongoing tech selloff&nbsp;&nbsp;MarketWatch",
       "source": "MarketWatch",
-      "star": false
-    },
-    {
-      "title": "The New York Stock Exchange | NYSE - NYSE",
-      "why": "The New York Stock Exchange | NYSE&nbsp;&nbsp;NYSE",
-      "source": "NYSE",
-      "star": false
-    },
-    {
-      "title": "U.S. Stock Futures Flat after Another Soft Week Driven by AI Concerns - TipRanks",
-      "why": "U.S. Stock Futures Flat after Another Soft Week Driven by AI Concerns&nbsp;&nbsp;TipRanks",
-      "source": "TipRanks",
       "star": false
     },
     {
@@ -405,9 +405,9 @@
       "star": false
     },
     {
-      "title": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher - Fortune",
-      "why": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher&nbsp;&nbsp;Fortune",
-      "source": "Fortune",
+      "title": "Stock Market News Today, 2/17/26 – U.S. Stock Futures Dip in Holiday-Shortened Week Amid Key Data - TipRanks",
+      "why": "Stock Market News Today, 2/17/26 – U.S. Stock Futures Dip in Holiday-Shortened Week Amid Key Data&nbsp;&nbsp;TipRanks",
+      "source": "TipRanks",
       "star": false
     }
   ],
@@ -415,39 +415,39 @@
     "upcoming": [],
     "movers": [
       {
-        "symbol": "NE",
-        "name": "노블 코퍼레이션",
-        "changePct": 7.61,
-        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
-      },
-      {
-        "symbol": "BMNR",
-        "name": "비트마인드(가칭)",
-        "changePct": 6.18,
-        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
-      },
-      {
-        "symbol": "BLDP",
-        "name": "발라드 파워",
-        "changePct": 3.86,
+        "symbol": "VRTL",
+        "name": "버추얼트…(가칭)",
+        "changePct": 7.33,
         "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
       },
       {
         "symbol": "NVDA",
         "name": "엔비디아",
-        "changePct": -2.21,
+        "changePct": 1.18,
         "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
       },
       {
-        "symbol": "GGLL",
-        "name": "그래닛셰어즈 2x 롱 NVDA(ETF)",
-        "changePct": -2.23,
+        "symbol": "QQQM",
+        "name": "인베스코 나스닥100 미니(ETF)",
+        "changePct": -0.1,
         "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
       },
       {
-        "symbol": "RXRX",
-        "name": "리커전 파마",
-        "changePct": -2.51,
+        "symbol": "BMNR",
+        "name": "비트마인드(가칭)",
+        "changePct": -3.86,
+        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
+      },
+      {
+        "symbol": "NE",
+        "name": "노블 코퍼레이션",
+        "changePct": -5.13,
+        "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
+      },
+      {
+        "symbol": "CEVA",
+        "name": "세바",
+        "changePct": -9.79,
         "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
       }
     ]
@@ -455,47 +455,47 @@
   "sectors": [
     {
       "name": "기술",
-      "changePct": 0.25
+      "changePct": -0.06
     },
     {
       "name": "금융",
-      "changePct": -0.08
+      "changePct": 1.06
     },
     {
       "name": "경기소비재",
-      "changePct": 0.04
+      "changePct": -0.12
     },
     {
       "name": "필수소비재",
-      "changePct": 0.34
+      "changePct": -1.46
     },
     {
       "name": "에너지",
-      "changePct": 0.69
+      "changePct": -1.1
     },
     {
       "name": "헬스케어",
-      "changePct": 1.07
+      "changePct": -0.19
     },
     {
       "name": "산업재",
-      "changePct": 0.82
+      "changePct": 0.52
     },
     {
       "name": "소재",
-      "changePct": 0.91
+      "changePct": -1.14
     },
     {
       "name": "유틸리티",
-      "changePct": 2.76
+      "changePct": -0.26
     },
     {
       "name": "부동산",
-      "changePct": 1.47
+      "changePct": 1.01
     },
     {
       "name": "커뮤니케이션",
-      "changePct": -0.05
+      "changePct": -0.16
     }
   ],
   "myStocks": [
@@ -503,10 +503,10 @@
       "symbol": "NE",
       "name": "노블 코퍼레이션",
       "koName": "노블 코퍼레이션",
-      "last": "45.82",
-      "changePct": 7.61,
-      "priceText": "$45.82 (↑7.61%)",
-      "news": "Here is Why Noble Corporation (NE) Jumped This Week - Yahoo Finance",
+      "last": "43.47",
+      "changePct": -5.13,
+      "priceText": "$43.47 (↓5.13%)",
+      "news": "JP Morgan Raises Price Target for NE, Maintains Neutral Rating | - GuruFocus",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -514,10 +514,10 @@
       "symbol": "RXRX",
       "name": "리커전 파마",
       "koName": "리커전 파마",
-      "last": "3.49",
-      "changePct": -2.51,
-      "priceText": "$3.49 (↓2.51%)",
-      "news": "Recursion Pharmaceuticals (RXRX) Falls More Steeply Than Broader Market: What Investors Need to Know - Yahoo Finance",
+      "last": "3.46",
+      "changePct": -0.86,
+      "priceText": "$3.46 (↓0.86%)",
+      "news": "Recursion Pharmaceuticals, Inc. (RXRX) Stock Analysis: Potential 100% Upside Amidst Challenging Financials - DirectorsTalk Interviews",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -525,10 +525,10 @@
       "symbol": "BLDP",
       "name": "발라드 파워",
       "koName": "발라드 파워",
-      "last": "2.15",
-      "changePct": 3.86,
-      "priceText": "$2.15 (↑3.86%)",
-      "news": "Long Term Trading Analysis for (BLDP) (BLDP:CA) - Stock Traders Daily",
+      "last": "2.14",
+      "changePct": -0.47,
+      "priceText": "$2.14 (↓0.47%)",
+      "news": "Here's Why Ballard Power Systems (BLDP) is a Great Momentum Stock to Buy - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -536,10 +536,10 @@
       "symbol": "BMNR",
       "name": "비트마인드(가칭)",
       "koName": "비트마인드(가칭)",
-      "last": "20.96",
-      "changePct": 6.18,
-      "priceText": "$20.96 (↑6.18%)",
-      "news": "Tom Lee’s BitMine (BMNR) Stock Faces Cost-Basis Risk — Price Breakdown at 10%? - Yahoo Finance",
+      "last": "20.15",
+      "changePct": -3.86,
+      "priceText": "$20.15 (↓3.86%)",
+      "news": "B.Riley Maintains Buy Rating on Bitmine (BMNR) After Strategic MrBeast Partnership - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -547,10 +547,10 @@
       "symbol": "NVDA",
       "name": "엔비디아",
       "koName": "엔비디아",
-      "last": "182.81",
-      "changePct": -2.21,
-      "priceText": "$182.81 (↓2.21%)",
-      "news": "Ray Dalio’s Bridgewater invests $253 million in major AI stock - thestreet.com",
+      "last": "184.97",
+      "changePct": 1.18,
+      "priceText": "$184.97 (↑1.18%)",
+      "news": "Is Nvidia Stock Going to $300? - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -558,10 +558,10 @@
       "symbol": "TSLA",
       "name": "테슬라",
       "koName": "테슬라",
-      "last": "417.44",
-      "changePct": 0.09,
-      "priceText": "$417.44 (↑0.09%)",
-      "news": "Tesla enters the autonomy-as-a-service era (TSLA:NASDAQ) - Seeking Alpha",
+      "last": "410.63",
+      "changePct": -1.63,
+      "priceText": "$410.63 (↓1.63%)",
+      "news": "“The Solar Opportunity is Underestimated”: Tesla Stock (NASDAQ:TSLA) Slides as Buffalo Workforce Ramps Up - TipRanks",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -569,10 +569,10 @@
       "symbol": "AI",
       "name": "C3.ai",
       "koName": "C3.ai",
-      "last": "10.78",
-      "changePct": 3.85,
-      "priceText": "$10.78 (↑3.85%)",
-      "news": "'The dark side of AI': Wall Street weighs recent stock sell-off over disruption fears - Yahoo Finance",
+      "last": "10.40",
+      "changePct": -3.53,
+      "priceText": "$10.40 (↓3.53%)",
+      "news": "1 AI Stock That Could Turn $100 Per Month Into $27,675 - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -580,10 +580,10 @@
       "symbol": "GGLL",
       "name": "그래닛셰어즈 2x 롱 NVDA(ETF)",
       "koName": "그래닛셰어즈 2x 롱 NVDA(ETF)",
-      "last": "90.84",
-      "changePct": -2.23,
-      "priceText": "$90.84 (↓2.23%)",
-      "news": "(GGLL) Movement Within Algorithmic Entry Frameworks - Stock Traders Daily",
+      "last": "88.72",
+      "changePct": -2.33,
+      "priceText": "$88.72 (↓2.33%)",
+      "news": "Direxion Daily GOOGL Bull 2X Shares (NASDAQ:GGLL) Sees Large Drop in Short Interest - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -591,9 +591,9 @@
       "symbol": "QQQM",
       "name": "인베스코 나스닥100 미니(ETF)",
       "koName": "인베스코 나스닥100 미니(ETF)",
-      "last": "247.83",
-      "changePct": 0.21,
-      "priceText": "$247.83 (↑0.21%)",
+      "last": "247.57",
+      "changePct": -0.1,
+      "priceText": "$247.57 (↓0.10%)",
       "news": "Believe It: Chip Stocks Aren’t as Expensive as Investors Think - ETF Trends",
       "nextEvent": "없음",
       "memo": ""
@@ -602,9 +602,9 @@
       "symbol": "VRTL",
       "name": "버추얼트…(가칭)",
       "koName": "버추얼트…(가칭)",
-      "last": "94.99",
-      "changePct": -1.32,
-      "priceText": "$94.99 (↓1.32%)",
+      "last": "101.95",
+      "changePct": 7.33,
+      "priceText": "$101.95 (↑7.33%)",
       "news": "U.S. ETF Tracker | Oklo, a U.S. nuclear power company, and Vertiv Holdings have announced a partnership, with the 2x leveraged VRTL ETF rising nearly 10%; the 2x leveraged INTC ETF fell more than 17%. - 富途牛牛",
       "nextEvent": "없음",
       "memo": ""
@@ -613,10 +613,10 @@
       "symbol": "CEVA",
       "name": "세바",
       "koName": "세바",
-      "last": "22.67",
-      "changePct": 0.53,
-      "priceText": "$22.67 (↑0.53%)",
-      "news": "An Overview of CEVA's Earnings - Benzinga",
+      "last": "20.45",
+      "changePct": -9.79,
+      "priceText": "$20.45 (↓9.79%)",
+      "news": "Ceva (NASDAQ:CEVA) Stock Price Down 8.2% - Here's Why - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -624,16 +624,16 @@
       "symbol": "CCS",
       "name": "센추리 커뮤니티즈",
       "koName": "센추리 커뮤니티즈",
-      "last": "74.84",
-      "changePct": 3.51,
-      "priceText": "$74.84 (↑3.51%)",
-      "news": "Century Communities, Inc. (NYSE:CCS) Sees Significant Decline in Short Interest - MarketBeat",
+      "last": "73.43",
+      "changePct": -1.88,
+      "priceText": "$73.43 (↓1.88%)",
+      "news": "Heartland Advisors Inc. Purchases 36,521 Shares of Century Communities, Inc. $CCS - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     }
   ],
   "risk": {
-    "speed": "내 종목 최대 절대등락: 7.61%",
+    "speed": "내 종목 최대 절대등락: 9.79%",
     "vol": "VIX: -",
     "rule": "오늘 액션: 관망 (무리 금지)"
   },
