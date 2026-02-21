@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-21 13:52 KST",
+  "updatedAt": "2026-02-21 13:53 KST",
   "oneLine": "지수 상승(+0.69%), 10Y -1bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: GGLL(+7.95%) / BOT: RXRX(-8.06%).",
   "mood": {
     "value": "좋음",
@@ -389,15 +389,15 @@
       "star": false
     },
     {
-      "title": "S&P 500 closes little changed Tuesday as declines in software shares weigh on index: Live updates - CNBC",
-      "why": "S&amp;P 500 closes little changed Tuesday as declines in software shares weigh on index: Live updates&nbsp;&nbsp;CNBC",
-      "source": "CNBC",
-      "star": false
-    },
-    {
       "title": "Stock Market News Today, 2/20/26 – U.S. Stock Futures Climb Ahead of Key Inflation Data - TipRanks",
       "why": "Stock Market News Today, 2/20/26 – U.S. Stock Futures Climb Ahead of Key Inflation Data&nbsp;&nbsp;TipRanks",
       "source": "TipRanks",
+      "star": false
+    },
+    {
+      "title": "Dow, S&P 500, Nasdaq futures jump ahead of PCE data - Latest news from Azerbaijan",
+      "why": "Dow, S&amp;P 500, Nasdaq futures jump ahead of PCE data&nbsp;&nbsp;Latest news from Azerbaijan",
+      "source": "Latest news from Azerbaijan",
       "star": false
     }
   ],
@@ -507,7 +507,7 @@
       "last": "3.42",
       "changePct": -8.06,
       "priceText": "$3.42 (↓8.06%)",
-      "news": "Recursion Pharmaceuticals (RXRX) Stock Sinks As Market Gains: What You Should Know - Yahoo Finance Singapore",
+      "news": "Recursion Pharmaceuticals (RXRX) Stock Sinks As Market Gains: What You Should Know - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -540,7 +540,7 @@
       "last": "189.82",
       "changePct": 1.02,
       "priceText": "$189.82 (↑1.02%)",
-      "news": "The Stock That’s Quietly Outperformed NVIDIA 3-to-1 Since 2023 - 24/7 Wall St.",
+      "news": "2 AI Stocks to Buy Before They Soar 37% and 108%, According to Wall Street Analysts - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
