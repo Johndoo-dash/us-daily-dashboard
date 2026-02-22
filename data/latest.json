@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-21 13:53 KST",
+  "updatedAt": "2026-02-22 14:11 KST",
   "oneLine": "지수 상승(+0.69%), 10Y -1bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: GGLL(+7.95%) / BOT: RXRX(-8.06%).",
   "mood": {
     "value": "좋음",
@@ -371,21 +371,15 @@
   },
   "newsTop5": [
     {
-      "title": "S&P 500 rises, Dow gains 200 points after Supreme Court strikes down Trump emergency tariffs: Live updates - CNBC",
-      "why": "S&amp;P 500 rises, Dow gains 200 points after Supreme Court strikes down Trump emergency tariffs: Live updates&nbsp;&nbsp;CNBC",
-      "source": "CNBC",
-      "star": false
-    },
-    {
-      "title": "Markets News, Feb. 20, 2026: Stocks Rise After Supreme Court Strikes Down Tariffs; Nasdaq Snaps 5-Week Losing Streak - Investopedia",
-      "why": "Markets News, Feb. 20, 2026: Stocks Rise After Supreme Court Strikes Down Tariffs; Nasdaq Snaps 5-Week Losing Streak&nbsp;&nbsp;Investopedia",
-      "source": "Investopedia",
-      "star": false
-    },
-    {
-      "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
+      "title": "US Stock Market Today: S&P 500 Futures Slide as Fed Signals Limited Further Cuts - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Slide as Fed Signals Limited Further Cuts&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
+      "star": false
+    },
+    {
+      "title": "Stock Market News Today, 2/19/26 – U.S. Stock Futures Dip Ahead of Walmart Results - TipRanks",
+      "why": "Stock Market News Today, 2/19/26 – U.S. Stock Futures Dip Ahead of Walmart Results&nbsp;&nbsp;TipRanks",
+      "source": "TipRanks",
       "star": false
     },
     {
@@ -395,9 +389,15 @@
       "star": false
     },
     {
-      "title": "Dow, S&P 500, Nasdaq futures jump ahead of PCE data - Latest news from Azerbaijan",
-      "why": "Dow, S&amp;P 500, Nasdaq futures jump ahead of PCE data&nbsp;&nbsp;Latest news from Azerbaijan",
-      "source": "Latest news from Azerbaijan",
+      "title": "US Stock Market Today: S&P 500 Futures Edge Higher as Fed Rate-Cut Debate Looms - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Edge Higher as Fed Rate-Cut Debate Looms&nbsp;&nbsp;Yahoo Finance",
+      "source": "Yahoo Finance",
+      "star": false
+    },
+    {
+      "title": "US Stock Market Today: S&P 500 Futures Slip as Rate Cut Bets Rise Amid Weak Jobs Data - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Slip as Rate Cut Bets Rise Amid Weak Jobs Data&nbsp;&nbsp;Yahoo Finance",
+      "source": "Yahoo Finance",
       "star": false
     }
   ],
@@ -496,7 +496,7 @@
       "last": "45.52",
       "changePct": 0.4,
       "priceText": "$45.52 (↑0.40%)",
-      "news": "Volume spike lifts SIZE.NE (Major Precious Metals Corp., NEO) 16.67% 20 Feb 2026: Monitor liquidity and platinum link - Meyka",
+      "news": "What Makes Noble Corporation PLC (NE) a Strong Momentum Stock: Buy Now? - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -518,7 +518,7 @@
       "last": "2.11",
       "changePct": -0.47,
       "priceText": "$2.11 (↓0.47%)",
-      "news": "(BLDP) Long Term Investment Analysis (BLDP:CA) - Stock Traders Daily",
+      "news": "How The Ballard Power Systems TSX BLDP Story Is Shifting After Restructuring And New Targets - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -529,7 +529,7 @@
       "last": "20.13",
       "changePct": 0.85,
       "priceText": "$20.13 (↑0.85%)",
-      "news": "BitMine Stock Positioned for a Rebound as Morgan Stanley, Goldman Sachs, and BlackRock Buy More BMNR Shares - TipRanks",
+      "news": "Is Bitmine Immersion Technologies, Inc. (BMNR) One of the Best Debt-Free Mid-Cap Stocks to Buy According to Hedge Funds? - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -540,7 +540,7 @@
       "last": "189.82",
       "changePct": 1.02,
       "priceText": "$189.82 (↑1.02%)",
-      "news": "2 AI Stocks to Buy Before They Soar 37% and 108%, According to Wall Street Analysts - The Motley Fool",
+      "news": "Nvidia likely to offer 'typical' upside when it reports Q4 results: Oppenheimer (NVDA:NASDAQ) - Seeking Alpha",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -584,7 +584,7 @@
       "last": "250.67",
       "changePct": 0.87,
       "priceText": "$250.67 (↑0.87%)",
-      "news": "QQQM: Capturing AI Growth Doesn't Have To Be Complicated (NASDAQ:QQQM) - Seeking Alpha",
+      "news": "Retirees and Income Investors Missed QQQM’s 108% Return By Focusing On The Wrong Thing - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -617,7 +617,7 @@
       "last": "71.85",
       "changePct": 0.27,
       "priceText": "$71.85 (↑0.27%)",
-      "news": "More than 300 new homes from low to mid $300Ks in Phoenix suburbs - Stock Titan",
+      "news": "Heartland Advisors Inc. Purchases 36,521 Shares of Century Communities, Inc. $CCS - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     }
