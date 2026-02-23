@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-22 14:11 KST",
+  "updatedAt": "2026-02-23 14:20 KST",
   "oneLine": "지수 상승(+0.69%), 10Y -1bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: GGLL(+7.95%) / BOT: RXRX(-8.06%).",
   "mood": {
     "value": "좋음",
@@ -371,32 +371,32 @@
   },
   "newsTop5": [
     {
-      "title": "US Stock Market Today: S&P 500 Futures Slide as Fed Signals Limited Further Cuts - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Slide as Fed Signals Limited Further Cuts&nbsp;&nbsp;Yahoo Finance",
+      "title": "U.S. stock futures, dollar and bitcoin drop as investors await clarity on Trump’s latest tariff plans - MarketWatch",
+      "why": "U.S. stock futures, dollar and bitcoin drop as investors await clarity on Trump’s latest tariff plans&nbsp;&nbsp;MarketWatch",
+      "source": "MarketWatch",
+      "star": false
+    },
+    {
+      "title": "The New York Stock Exchange | NYSE - NYSE",
+      "why": "The New York Stock Exchange | NYSE&nbsp;&nbsp;NYSE",
+      "source": "NYSE",
+      "star": false
+    },
+    {
+      "title": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher - Fortune",
+      "why": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher&nbsp;&nbsp;Fortune",
+      "source": "Fortune",
+      "star": false
+    },
+    {
+      "title": "US Stock Market Today: S&P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
       "star": false
     },
     {
-      "title": "Stock Market News Today, 2/19/26 – U.S. Stock Futures Dip Ahead of Walmart Results - TipRanks",
-      "why": "Stock Market News Today, 2/19/26 – U.S. Stock Futures Dip Ahead of Walmart Results&nbsp;&nbsp;TipRanks",
-      "source": "TipRanks",
-      "star": false
-    },
-    {
-      "title": "Stock Market News Today, 2/20/26 – U.S. Stock Futures Climb Ahead of Key Inflation Data - TipRanks",
-      "why": "Stock Market News Today, 2/20/26 – U.S. Stock Futures Climb Ahead of Key Inflation Data&nbsp;&nbsp;TipRanks",
-      "source": "TipRanks",
-      "star": false
-    },
-    {
-      "title": "US Stock Market Today: S&P 500 Futures Edge Higher as Fed Rate-Cut Debate Looms - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Edge Higher as Fed Rate-Cut Debate Looms&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
-      "star": false
-    },
-    {
-      "title": "US Stock Market Today: S&P 500 Futures Slip as Rate Cut Bets Rise Amid Weak Jobs Data - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Slip as Rate Cut Bets Rise Amid Weak Jobs Data&nbsp;&nbsp;Yahoo Finance",
+      "title": "US Stock Market Today: S&P 500 Futures Dip Amid Cooling Jobs, Resilient Services Signals - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Dip Amid Cooling Jobs, Resilient Services Signals&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
       "star": false
     }
@@ -496,7 +496,7 @@
       "last": "45.52",
       "changePct": 0.4,
       "priceText": "$45.52 (↑0.40%)",
-      "news": "What Makes Noble Corporation PLC (NE) a Strong Momentum Stock: Buy Now? - Yahoo Finance",
+      "news": "Jennie Howard Sells 6,094 Shares of Noble (NYSE:NE) Stock - MarketBeat",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -507,7 +507,7 @@
       "last": "3.42",
       "changePct": -8.06,
       "priceText": "$3.42 (↓8.06%)",
-      "news": "Recursion Pharmaceuticals (RXRX) Stock Sinks As Market Gains: What You Should Know - Yahoo Finance",
+      "news": "Recursion Pharmaceuticals Stock (RXRX) Opinions on Upcoming Earnings Report - Quiver Quantitative",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -529,7 +529,7 @@
       "last": "20.13",
       "changePct": 0.85,
       "priceText": "$20.13 (↑0.85%)",
-      "news": "Is Bitmine Immersion Technologies, Inc. (BMNR) One of the Best Debt-Free Mid-Cap Stocks to Buy According to Hedge Funds? - Yahoo Finance",
+      "news": "A Look At Bitmine Immersion Technologies (BMNR) Valuation After Rising Institutional Interest And Expanded Ethereum Exposure - simplywall.st",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -540,7 +540,7 @@
       "last": "189.82",
       "changePct": 1.02,
       "priceText": "$189.82 (↑1.02%)",
-      "news": "Nvidia likely to offer 'typical' upside when it reports Q4 results: Oppenheimer (NVDA:NASDAQ) - Seeking Alpha",
+      "news": "NVIDIA’s Stock May Fall Sharply After Earnings (NASDAQ:NVDA) - Seeking Alpha",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -562,7 +562,7 @@
       "last": "10.38",
       "changePct": -2.99,
       "priceText": "$10.38 (↓2.99%)",
-      "news": "2 AI Stocks to Buy Before They Soar 37% and 108%, According to Wall Street Analysts - The Motley Fool",
+      "news": "A Billionaire Just Bet Big on This AI Stock. Should Investors Follow Suit? - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -584,7 +584,7 @@
       "last": "250.67",
       "changePct": 0.87,
       "priceText": "$250.67 (↑0.87%)",
-      "news": "Retirees and Income Investors Missed QQQM’s 108% Return By Focusing On The Wrong Thing - Yahoo Finance",
+      "news": "The Best Tech ETF to Invest $2,000 in Right Now - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
