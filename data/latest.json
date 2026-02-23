@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-23 14:20 KST",
+  "updatedAt": "2026-02-23 14:25 KST",
   "oneLine": "지수 상승(+0.69%), 10Y -1bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: GGLL(+7.95%) / BOT: RXRX(-8.06%).",
   "mood": {
     "value": "좋음",
@@ -377,27 +377,27 @@
       "star": false
     },
     {
+      "title": "S&P 500 rises, Dow gains 200 points after Supreme Court strikes down Trump emergency tariffs: Live updates - CNBC",
+      "why": "S&amp;P 500 rises, Dow gains 200 points after Supreme Court strikes down Trump emergency tariffs: Live updates&nbsp;&nbsp;CNBC",
+      "source": "CNBC",
+      "star": false
+    },
+    {
       "title": "The New York Stock Exchange | NYSE - NYSE",
       "why": "The New York Stock Exchange | NYSE&nbsp;&nbsp;NYSE",
       "source": "NYSE",
       "star": false
     },
     {
-      "title": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher - Fortune",
-      "why": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher&nbsp;&nbsp;Fortune",
-      "source": "Fortune",
-      "star": false
-    },
-    {
-      "title": "US Stock Market Today: S&P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets&nbsp;&nbsp;Yahoo Finance",
+      "title": "Stock market today: Dow, S&P 500, Nasdaq jump to post weekly gains as Supreme Court strikes down Trump tariffs - Yahoo Finance",
+      "why": "Stock market today: Dow, S&amp;P 500, Nasdaq jump to post weekly gains as Supreme Court strikes down Trump tariffs&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
       "star": false
     },
     {
-      "title": "US Stock Market Today: S&P 500 Futures Dip Amid Cooling Jobs, Resilient Services Signals - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Dip Amid Cooling Jobs, Resilient Services Signals&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
+      "title": "Markets News, Feb. 20, 2026: Stocks Rise After Supreme Court Strikes Down Tariffs; Nasdaq Snaps 5-Week Losing Streak - Investopedia",
+      "why": "Markets News, Feb. 20, 2026: Stocks Rise After Supreme Court Strikes Down Tariffs; Nasdaq Snaps 5-Week Losing Streak&nbsp;&nbsp;Investopedia",
+      "source": "Investopedia",
       "star": false
     }
   ],
@@ -606,7 +606,7 @@
       "last": "19.46",
       "changePct": -1.07,
       "priceText": "$19.46 (↓1.07%)",
-      "news": "Ceva (NASDAQ:CEVA) Stock Price Down 8.2% - Here's Why - MarketBeat",
+      "news": "Ceva Stock Remains Constrained As Momentum Fails To Build - Benzinga",
       "nextEvent": "없음",
       "memo": ""
     },
