@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-27 10:48 KST",
+  "updatedAt": "2026-02-27 11:38 KST",
   "oneLine": "지수 하락(-0.54%), 10Y +1bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: CEVA(+1.41%) / BOT: AI(-18.53%).",
   "mood": {
     "value": "애매",
@@ -383,15 +383,15 @@
       "star": false
     },
     {
-      "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
-      "star": false
-    },
-    {
       "title": "Stock Market News Today, 2/26/26 – U.S. Stock Futures Wobble amid Market’s Lukewarm Response to Nvidia’s Results - TipRanks",
       "why": "Stock Market News Today, 2/26/26 – U.S. Stock Futures Wobble amid Market’s Lukewarm Response to Nvidia’s Results&nbsp;&nbsp;TipRanks",
       "source": "TipRanks",
+      "star": false
+    },
+    {
+      "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
+      "source": "Yahoo Finance",
       "star": false
     },
     {
@@ -507,7 +507,7 @@
       "last": "3.77",
       "changePct": 0.13,
       "priceText": "$3.77 (↑0.13%)",
-      "news": "The Bull Case For Recursion Pharmaceuticals (RXRX) Could Change Following Nvidia’s Exit And ARK’s Big Buy-In - Yahoo Finance",
+      "news": "How Investors May Respond To Recursion Pharmaceuticals (RXRX) Extending Cash Runway With New Equity Programs - simplywall.st",
       "nextEvent": "없음",
       "memo": ""
     },
