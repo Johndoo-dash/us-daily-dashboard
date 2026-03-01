@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-01 11:00 KST",
+  "updatedAt": "2026-03-01 11:53 KST",
   "oneLine": "지수 하락(-0.43%), 10Y -3bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: GGLL(+2.76%) / BOT: BMNR(-7.14%).",
   "mood": {
     "value": "애매",
@@ -381,9 +381,9 @@
   },
   "newsTop5": [
     {
-      "title": "US Premarket Movers: Cava, Circle Internet, Lowe’s, Oddity Tech - Bloomberg.com",
-      "why": "US Premarket Movers: Cava, Circle Internet, Lowe’s, Oddity Tech&nbsp;&nbsp;Bloomberg.com",
-      "source": "Bloomberg.com",
+      "title": "US Premarket Movers: Cava, Circle Internet, Lowe’s, Oddity Tech - Bloomberg",
+      "why": "US Premarket Movers: Cava, Circle Internet, Lowe’s, Oddity Tech&nbsp;&nbsp;Bloomberg",
+      "source": "Bloomberg",
       "star": false
     },
     {
@@ -399,15 +399,15 @@
       "star": false
     },
     {
-      "title": "US Stock Market Today: S&P 500 Futures Climb amid Higher-for-Longer Rate Jitters - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Climb amid Higher-for-Longer Rate Jitters&nbsp;&nbsp;Yahoo Finance",
+      "title": "US Stock Market Today: S&P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
       "star": false
     },
     {
-      "title": "US Stock Market Today: S&P 500 Futures Dip Amid Cooling Jobs, Resilient Services Signals - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Dip Amid Cooling Jobs, Resilient Services Signals&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
+      "title": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher - Fortune",
+      "why": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher&nbsp;&nbsp;Fortune",
+      "source": "Fortune",
       "star": false
     }
   ],
@@ -550,7 +550,7 @@
       "last": "177.19",
       "changePct": -4.16,
       "priceText": "$177.19 (↓4.16%)",
-      "news": "Nvidia stock falls as Q4 beat, guidance fail to satisfy Wall Street - Yahoo Finance",
+      "news": "Nvidia's blowout earnings report disappoints Wall Street as stock sinks 5% - CNBC",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -616,7 +616,7 @@
       "last": "20.86",
       "changePct": -3.52,
       "priceText": "$20.86 (↓3.52%)",
-      "news": "CEVA shares rise as UBS initiates coverage with ‘Buy’ rating - Yahoo Finance",
+      "news": "없음",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -627,7 +627,7 @@
       "last": "67.23",
       "changePct": 0.46,
       "priceText": "$67.23 (↑0.46%)",
-      "news": "New Fairfield community rings 21-acre lake with homes from mid-$600Ks - Stock Titan",
+      "news": "없음",
       "nextEvent": "없음",
       "memo": ""
     }
