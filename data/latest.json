@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-01 11:53 KST",
+  "updatedAt": "2026-03-02 10:51 KST",
   "oneLine": "지수 하락(-0.43%), 10Y -3bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: GGLL(+2.76%) / BOT: BMNR(-7.14%).",
   "mood": {
     "value": "애매",
@@ -381,33 +381,33 @@
   },
   "newsTop5": [
     {
-      "title": "US Premarket Movers: Cava, Circle Internet, Lowe’s, Oddity Tech - Bloomberg",
-      "why": "US Premarket Movers: Cava, Circle Internet, Lowe’s, Oddity Tech&nbsp;&nbsp;Bloomberg",
-      "source": "Bloomberg",
+      "title": "Dow Jones Futures Fall, Oil Prices Spike Amid U.S.-Iran Attacks - Investor's Business Daily",
+      "why": "Dow Jones Futures Fall, Oil Prices Spike Amid U.S.-Iran Attacks&nbsp;&nbsp;Investor's Business Daily",
+      "source": "Investor's Business Daily",
       "star": false
     },
     {
-      "title": "Stock Market News Today, 2/27/26 – U.S. Stock Futures Slide as Nvidia Drops 5.6% - TipRanks",
-      "why": "Stock Market News Today, 2/27/26 – U.S. Stock Futures Slide as Nvidia Drops 5.6%&nbsp;&nbsp;TipRanks",
-      "source": "TipRanks",
-      "star": false
-    },
-    {
-      "title": "U.S. Stock Market today: Dow Jones, S&P 500, Nasdaq futures set for muted Wall Street opening. Here's what - The Economic Times",
-      "why": "U.S. Stock Market today: Dow Jones, S&amp;P 500, Nasdaq futures set for muted Wall Street opening. Here's what&nbsp;&nbsp;The Economic Times",
-      "source": "The Economic Times",
-      "star": false
-    },
-    {
-      "title": "US Stock Market Today: S&P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Rise amid Hot Jobs, Fewer Cut Bets&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
-      "star": false
-    },
-    {
-      "title": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher - Fortune",
-      "why": "Dow futures rise after index tops 50,000 for first time while landslide election in Japan sends U.S. bond yields higher&nbsp;&nbsp;Fortune",
+      "title": "Stock market today: Dow futures sink nearly 500 points as US attack on Iran sends oil prices soaring - Fortune",
+      "why": "Stock market today: Dow futures sink nearly 500 points as US attack on Iran sends oil prices soaring&nbsp;&nbsp;Fortune",
       "source": "Fortune",
+      "star": false
+    },
+    {
+      "title": "The New York Stock Exchange | NYSE - NYSE",
+      "why": "The New York Stock Exchange | NYSE&nbsp;&nbsp;NYSE",
+      "source": "NYSE",
+      "star": false
+    },
+    {
+      "title": "Stock market today: Dow, S&P 500, Nasdaq futures sink, oil prices surge as markets react to Iran conflict - Yahoo Finance Singapore",
+      "why": "Stock market today: Dow, S&amp;P 500, Nasdaq futures sink, oil prices surge as markets react to Iran conflict&nbsp;&nbsp;Yahoo Finance Singa…",
+      "source": "Yahoo Finance Singapore",
+      "star": false
+    },
+    {
+      "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
+      "source": "Yahoo Finance",
       "star": false
     }
   ],
@@ -506,7 +506,7 @@
       "last": "45.43",
       "changePct": 1.16,
       "priceText": "$45.43 (↑1.16%)",
-      "news": "JAMIESON WELLNESS INC (JWEL.NE) Stock Price, News, Quote & History - Yahoo Finance",
+      "news": "NE Financials: Income Statement, Balance Sheet & Cash Flow - Stock Titan",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -517,7 +517,7 @@
       "last": "3.67",
       "changePct": -2.65,
       "priceText": "$3.67 (↓2.65%)",
-      "news": "The Bull Case For Recursion Pharmaceuticals (RXRX) Could Change Following Nvidia’s Exit And ARK’s Big Buy-In - Yahoo Finance",
+      "news": "RXRX Q4 Loss Narrower Than Expected, Revenues Increase Y/Y, Stock Up - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -528,7 +528,7 @@
       "last": "2.14",
       "changePct": -3.17,
       "priceText": "$2.14 (↓3.17%)",
-      "news": "BLDP.TO - | Stock Price & Latest News - Reuters",
+      "news": "(BLDP) Advanced Trading Insights (BLDP:CA) - Stock Traders Daily",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -550,7 +550,7 @@
       "last": "177.19",
       "changePct": -4.16,
       "priceText": "$177.19 (↓4.16%)",
-      "news": "Nvidia's blowout earnings report disappoints Wall Street as stock sinks 5% - CNBC",
+      "news": "Here's the great Nvidia stock mystery - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -561,7 +561,7 @@
       "last": "402.51",
       "changePct": -1.49,
       "priceText": "$402.51 (↓1.49%)",
-      "news": "Tesla Stock Forecast: Is TSLA Headed to $25 Or $600 in 2026? - Barchart.com",
+      "news": "Tesla Retakes Top Slot in Fuel Economy, Tesla Stock (NASDAQ:TSLA) Slumps Regardless - TipRanks",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -572,7 +572,7 @@
       "last": "7.95",
       "changePct": -5.36,
       "priceText": "$7.95 (↓5.36%)",
-      "news": "C3 AI shares plummet as company cuts 26% of workforce, posts wider loss than expected - CNBC",
+      "news": "This AI stock soared, and Goldman sees more room to run - thestreet.com",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -594,7 +594,7 @@
       "last": "250.06",
       "changePct": -0.33,
       "priceText": "$250.06 (↓0.33%)",
-      "news": "(QQQM) Movement Within Algorithmic Entry Frameworks - Stock Traders Daily",
+      "news": "Retirees and Income Investors Missed QQQM’s 108% Return By Focusing On The Wrong Thing - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -616,7 +616,7 @@
       "last": "20.86",
       "changePct": -3.52,
       "priceText": "$20.86 (↓3.52%)",
-      "news": "없음",
+      "news": "CEVA: A Leader In The Field Of Wireless Communication With A High Valuation (NASDAQ:CEVA) - Seeking Alpha",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -627,7 +627,7 @@
       "last": "67.23",
       "changePct": 0.46,
       "priceText": "$67.23 (↑0.46%)",
-      "news": "없음",
+      "news": "New Fairfield community rings 21-acre lake with homes from mid-$600Ks - Stock Titan",
       "nextEvent": "없음",
       "memo": ""
     }
