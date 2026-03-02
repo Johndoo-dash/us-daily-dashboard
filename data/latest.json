@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-02 10:51 KST",
+  "updatedAt": "2026-03-02 11:41 KST",
   "oneLine": "지수 하락(-0.43%), 10Y -3bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: GGLL(+2.76%) / BOT: BMNR(-7.14%).",
   "mood": {
     "value": "애매",
@@ -381,14 +381,14 @@
   },
   "newsTop5": [
     {
-      "title": "Dow Jones Futures Fall, Oil Prices Spike Amid U.S.-Iran Attacks - Investor's Business Daily",
-      "why": "Dow Jones Futures Fall, Oil Prices Spike Amid U.S.-Iran Attacks&nbsp;&nbsp;Investor's Business Daily",
+      "title": "Here We Go: Futures Fall, Oil Prices Spike - Investor's Business Daily",
+      "why": "Here We Go: Futures Fall, Oil Prices Spike&nbsp;&nbsp;Investor's Business Daily",
       "source": "Investor's Business Daily",
       "star": false
     },
     {
-      "title": "Stock market today: Dow futures sink nearly 500 points as US attack on Iran sends oil prices soaring - Fortune",
-      "why": "Stock market today: Dow futures sink nearly 500 points as US attack on Iran sends oil prices soaring&nbsp;&nbsp;Fortune",
+      "title": "Stock market today: Dow futures sink nearly 400 points as US attack on Iran sends oil prices soaring - Fortune",
+      "why": "Stock market today: Dow futures sink nearly 400 points as US attack on Iran sends oil prices soaring&nbsp;&nbsp;Fortune",
       "source": "Fortune",
       "star": false
     },
@@ -405,9 +405,9 @@
       "star": false
     },
     {
-      "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
-      "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
-      "source": "Yahoo Finance",
+      "title": "Stock Market News Today, 2/27/26 – U.S. Stock Futures Slide as Nvidia Drops 5.6% - TipRanks",
+      "why": "Stock Market News Today, 2/27/26 – U.S. Stock Futures Slide as Nvidia Drops 5.6%&nbsp;&nbsp;TipRanks",
+      "source": "TipRanks",
       "star": false
     }
   ],
