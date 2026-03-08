@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-08 10:51 KST",
+  "updatedAt": "2026-03-08 11:43 KST",
   "oneLine": "지수 하락(-1.33%), 10Y +4bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: QQQM(-1.49%) / BOT: BMNR(-7.22%).",
   "mood": {
     "value": "애매",
@@ -382,9 +382,9 @@
       "star": false
     },
     {
-      "title": "US Premarket Movers: Broadcom, Ciena, Stubhub, Trade Desk, Veeva - Bloomberg.com",
-      "why": "US Premarket Movers: Broadcom, Ciena, Stubhub, Trade Desk, Veeva&nbsp;&nbsp;Bloomberg.com",
-      "source": "Bloomberg.com",
+      "title": "US Premarket Movers: Broadcom, Ciena, Stubhub, Trade Desk, Veeva - Bloomberg",
+      "why": "US Premarket Movers: Broadcom, Ciena, Stubhub, Trade Desk, Veeva&nbsp;&nbsp;Bloomberg",
+      "source": "Bloomberg",
       "star": false
     },
     {
@@ -523,7 +523,7 @@
       "last": "2.02",
       "changePct": -4.5,
       "priceText": "$2.02 (↓4.50%)",
-      "news": "(BLDP) Stock Trading Blueprint (BLDP:CA) - Stock Traders Daily",
+      "news": "Ballard Power Systems (BLDP) May Report Negative Earnings: Know the Trend Ahead of Next Week's Release - Finviz",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -567,7 +567,7 @@
       "last": "9.19",
       "changePct": -2.13,
       "priceText": "$9.19 (↓2.13%)",
-      "news": "Billionaire Stanley Druckenmiller Sells Sandisk Stock and Buys an AI Stock Up 223,000% Since Its IPO - The Motley Fool",
+      "news": "3 Artificial Intelligence (AI) Stocks That Could Make You a Millionaire - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -611,7 +611,7 @@
       "last": "19.16",
       "changePct": -1.64,
       "priceText": "$19.16 (↓1.64%)",
-      "news": "Why CEVA Inc. stock attracts high net worth investors - 2026 Intraday Action & Reliable Breakout Stock Forecasts - Naître et grandir",
+      "news": "Are Options Traders Betting on a Big Move in CEVA Stock? - Zacks Investment Research",
       "nextEvent": "없음",
       "memo": ""
     },
