@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-03-07 11:30 KST",
-  "oneLine": "지수 하락(-1.33%), 10Y +4bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: QQQM(-1.49%) / BOT: BMNR(-7.13%).",
+  "updatedAt": "2026-03-08 10:51 KST",
+  "oneLine": "지수 하락(-1.33%), 10Y +4bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: QQQM(-1.49%) / BOT: BMNR(-7.22%).",
   "mood": {
     "value": "애매",
     "reason": "방향성 약함(보합/혼조)"
@@ -382,27 +382,27 @@
       "star": false
     },
     {
+      "title": "US Premarket Movers: Broadcom, Ciena, Stubhub, Trade Desk, Veeva - Bloomberg.com",
+      "why": "US Premarket Movers: Broadcom, Ciena, Stubhub, Trade Desk, Veeva&nbsp;&nbsp;Bloomberg.com",
+      "source": "Bloomberg.com",
+      "star": false
+    },
+    {
       "title": "Stock market today: Dow Jones, S&P 500, Nasdaq 100 futures fall ahead of NFP data - TradingView",
       "why": "Stock market today: Dow Jones, S&amp;P 500, Nasdaq 100 futures fall ahead of NFP data&nbsp;&nbsp;TradingView",
       "source": "TradingView",
       "star": false
     },
     {
-      "title": "Dow Jones Futures Tumble, Oil Prices Spike Amid U.S.-Iran Attacks - Investor's Business Daily",
-      "why": "Dow Jones Futures Tumble, Oil Prices Spike Amid U.S.-Iran Attacks&nbsp;&nbsp;Investor's Business Daily",
-      "source": "Investor's Business Daily",
+      "title": "US Stock Market Today: S&P 500 Futures Fall As Rising Yields Pressure Tech - Yahoo Finance",
+      "why": "US Stock Market Today: S&amp;P 500 Futures Fall As Rising Yields Pressure Tech&nbsp;&nbsp;Yahoo Finance",
+      "source": "Yahoo Finance",
       "star": false
     },
     {
       "title": "Stock Market Today: Dow Jones, S&P 500 Futures Tumble As Payrolls Edge Down 92K— Marvell Technology, Gap, Oracle In Focus (UPDATED) - Benzinga",
       "why": "Stock Market Today: Dow Jones, S&amp;P 500 Futures Tumble As Payrolls Edge Down 92K— Marvell Technology, Gap, Oracle In Focus (UPDATED)&nbsp…",
       "source": "Benzinga",
-      "star": false
-    },
-    {
-      "title": "Stock Market News Today, 3/6/26 – U.S. Stock Futures Fall on Escalating Iran Conflict, Surging Oil Prices - TipRanks",
-      "why": "Stock Market News Today, 3/6/26 – U.S. Stock Futures Fall on Escalating Iran Conflict, Surging Oil Prices&nbsp;&nbsp;TipRanks",
-      "source": "TipRanks",
       "star": false
     }
   ],
@@ -442,7 +442,7 @@
       {
         "symbol": "BMNR",
         "name": "비트마인드(가칭)",
-        "changePct": -7.13,
+        "changePct": -7.22,
         "why": "급등락(프록시) — 실적/뉴스 연동 여부 확인"
       }
     ]
@@ -466,7 +466,7 @@
     },
     {
       "name": "에너지",
-      "changePct": 0.13
+      "changePct": 0.16
     },
     {
       "name": "헬스케어",
@@ -482,7 +482,7 @@
     },
     {
       "name": "유틸리티",
-      "changePct": -0.35
+      "changePct": -0.34
     },
     {
       "name": "부동산",
@@ -490,7 +490,7 @@
     },
     {
       "name": "커뮤니케이션",
-      "changePct": -0.82
+      "changePct": -0.83
     }
   ],
   "myStocks": [
@@ -501,7 +501,7 @@
       "last": "43.70",
       "changePct": -3.49,
       "priceText": "$43.70 (↓3.49%)",
-      "news": "SIZE.NE Major Precious Metals spikes to C$0.035 on volume Mar 2026: liquidity - Meyka",
+      "news": "Earnings Miss: Is NE.WS stock supported by strong fundamentals - July 2025 Movers & Free Growth Oriented Trading Recommendations - Naître et grandir",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -512,7 +512,7 @@
       "last": "3.45",
       "changePct": -2.54,
       "priceText": "$3.45 (↓2.54%)",
-      "news": "BoFA Lowers PT on Recursion Pharmaceuticals (RXRX), Keeps a Hold Rating - Finviz",
+      "news": "Recursion Pharmaceuticals Stock (RXRX) Opinions on Upcoming Earnings Report - Quiver Quantitative",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -531,10 +531,10 @@
       "symbol": "BMNR",
       "name": "비트마인드(가칭)",
       "koName": "비트마인드(가칭)",
-      "last": "18.90",
-      "changePct": -7.13,
-      "priceText": "$18.90 (↓7.13%)",
-      "news": "BitMine Stock Price Falls Under $20 — Is $18 Next? - BeInCrypto",
+      "last": "18.88",
+      "changePct": -7.22,
+      "priceText": "$18.88 (↓7.22%)",
+      "news": "Is Bitmine’s Ethereum Accumulation and MAVAN Staking Launch Altering The Investment Case For BMNR? - simplywall.st",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -545,7 +545,7 @@
       "last": "177.69",
       "changePct": -3.08,
       "priceText": "$177.69 (↓3.08%)",
-      "news": "Nvidia Stock’s Struggles Present This Opportunity. How to Play It. - Barron's",
+      "news": "5-star analyst revamps Nvidia stock price target - thestreet.com",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -567,7 +567,7 @@
       "last": "9.19",
       "changePct": -2.13,
       "priceText": "$9.19 (↓2.13%)",
-      "news": "Jim Cramer Says Buy 2 Trillion-Dollar AI Stocks -- Wall Street Agrees. - The Motley Fool",
+      "news": "Billionaire Stanley Druckenmiller Sells Sandisk Stock and Buys an AI Stock Up 223,000% Since Its IPO - The Motley Fool",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -611,7 +611,7 @@
       "last": "19.16",
       "changePct": -1.64,
       "priceText": "$19.16 (↓1.64%)",
-      "news": "Are Options Traders Betting on a Big Move in CEVA Stock? - Zacks Investment Research",
+      "news": "Why CEVA Inc. stock attracts high net worth investors - 2026 Intraday Action & Reliable Breakout Stock Forecasts - Naître et grandir",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -622,13 +622,13 @@
       "last": "61.41",
       "changePct": -2.69,
       "priceText": "$61.41 (↓2.69%)",
-      "news": "(CCS) and the Role of Price-Sensitive Allocations - Stock Traders Daily",
+      "news": "Aug Gainers: Is CCS Abwicklungs AG (C0M) stock a top pick for value investors - CPI Data & Safe Swing Trade Setup Alerts - Naître et grandir",
       "nextEvent": "없음",
       "memo": ""
     }
   ],
   "risk": {
-    "speed": "내 종목 최대 절대등락: 7.13%",
+    "speed": "내 종목 최대 절대등락: 7.22%",
     "vol": "VIX: -",
     "rule": "오늘 액션: 관망 (무리 금지)"
   },
