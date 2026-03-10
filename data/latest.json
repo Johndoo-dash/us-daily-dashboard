@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-10 10:46 KST",
+  "updatedAt": "2026-03-10 11:35 KST",
   "oneLine": "지수 상승(+0.83%), 10Y +2bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: VRTL(+18.34%) / BOT: CCS(-2.33%).",
   "mood": {
     "value": "좋음",
@@ -376,21 +376,15 @@
   },
   "newsTop5": [
     {
-      "title": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap - Bloomberg.com",
-      "why": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap&nbsp;&nbsp;Bloomberg.com",
-      "source": "Bloomberg.com",
-      "star": false
-    },
-    {
       "title": "E-mini S&P 500 Futures Overview - CME Group",
       "why": "E-mini S&amp;P 500 Futures Overview&nbsp;&nbsp;CME Group",
       "source": "CME Group",
       "star": false
     },
     {
-      "title": "Stock Market Today: Stock Market News And Analysis - Investor's Business Daily",
-      "why": "Stock Market Today: Stock Market News And Analysis&nbsp;&nbsp;Investor's Business Daily",
-      "source": "Investor's Business Daily",
+      "title": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap - Bloomberg.com",
+      "why": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap&nbsp;&nbsp;Bloomberg.com",
+      "source": "Bloomberg.com",
       "star": false
     },
     {
@@ -403,6 +397,12 @@
       "title": "US Stock Market Today S&P 500 Futures Drop On Rising Yields And Costly Oil - Yahoo Finance",
       "why": "US Stock Market Today S&amp;P 500 Futures Drop On Rising Yields And Costly Oil&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
+      "star": false
+    },
+    {
+      "title": "America’s Natural-Gas Bounty Is Cushioning U.S. Markets From Global Shocks - WSJ",
+      "why": "America’s Natural-Gas Bounty Is Cushioning U.S. Markets From Global Shocks&nbsp;&nbsp;WSJ",
+      "source": "WSJ",
       "star": false
     }
   ],
@@ -556,7 +556,7 @@
       "last": "398.60",
       "changePct": 0.47,
       "priceText": "$398.60 (↑0.47%)",
-      "news": "Tesla Stock (TSLA) Is Up 51% Over the Past Year. Who Owns the EV Giant? - TipRanks",
+      "news": "“Monolithic Structure”: Tesla Stock (NASDAQ:TSLA) Slides Despite First Megacharger in California - TipRanks",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -622,7 +622,7 @@
       "last": "59.98",
       "changePct": -2.33,
       "priceText": "$59.98 (↓2.33%)",
-      "news": "Century Communities, Inc. (NYSE:CCS) Given Average Rating of \"Hold\" by Analysts - MarketBeat",
+      "news": "Century Communities Inc (CCS): Strong Financials, Dividend Growth, and Strategic Expansion in 2026 - Yahoo Finance",
       "nextEvent": "없음",
       "memo": ""
     }
