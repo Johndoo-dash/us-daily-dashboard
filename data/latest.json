@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-11 10:46 KST",
+  "updatedAt": "2026-03-11 11:34 KST",
   "oneLine": "지수 하락(-0.21%), 10Y -3bp, DXY +0.00%, WTI +0.00%. 내 종목 TOP: VRTL(+4.51%) / BOT: AI(-3.34%).",
   "mood": {
     "value": "애매",
@@ -382,21 +382,21 @@
       "star": false
     },
     {
-      "title": "Dow futures sink more than 1,000 points, oil prices surge up to 30% as Iran conflict rages - MarketWatch",
-      "why": "Dow futures sink more than 1,000 points, oil prices surge up to 30% as Iran conflict rages&nbsp;&nbsp;MarketWatch",
-      "source": "MarketWatch",
-      "star": false
-    },
-    {
-      "title": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap - Bloomberg",
-      "why": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap&nbsp;&nbsp;Bloomberg",
-      "source": "Bloomberg",
+      "title": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap - Bloomberg.com",
+      "why": "Stocks Sink as Yields Spike After Oil Hit $100: Markets Wrap&nbsp;&nbsp;Bloomberg.com",
+      "source": "Bloomberg.com",
       "star": false
     },
     {
       "title": "US Stock Market Today S&P 500 Futures Drop On Rising Yields And Costly Oil - Yahoo Finance",
       "why": "US Stock Market Today S&amp;P 500 Futures Drop On Rising Yields And Costly Oil&nbsp;&nbsp;Yahoo Finance",
       "source": "Yahoo Finance",
+      "star": false
+    },
+    {
+      "title": "Dow futures sink more than 1,000 points, oil prices surge up to 30% as Iran conflict rages - MarketWatch",
+      "why": "Dow futures sink more than 1,000 points, oil prices surge up to 30% as Iran conflict rages&nbsp;&nbsp;MarketWatch",
+      "source": "MarketWatch",
       "star": false
     },
     {
@@ -534,7 +534,7 @@
       "last": "20.77",
       "changePct": 0.34,
       "priceText": "$20.77 (↑0.34%)",
-      "news": "Bitmine Vs. Sharplink: One Is A Dilution Trap, The Other Is The Better Ethereum Proxy - Seeking Alpha",
+      "news": "Is It Too Late To Reassess Bitmine Immersion Technologies (BMNR) After Its 1-Year Surge? - simplywall.st",
       "nextEvent": "없음",
       "memo": ""
     },
@@ -567,7 +567,7 @@
       "last": "8.96",
       "changePct": -3.34,
       "priceText": "$8.96 (↓3.34%)",
-      "news": "Top 5 Unstoppable AI Stocks to Buy for 2026 - The Motley Fool",
+      "news": "5 AI Stocks That Could Be the Next Nvidia — Before Wall Street Figures It Out - 24/7 Wall St.",
       "nextEvent": "없음",
       "memo": ""
     },
